@@ -15,12 +15,13 @@ import (
 	"time"
 
 	"github.com/loov/watchrun/watch"
+	"github.com/pkg/browser"
 
 	"golang.org/x/net/websocket"
 )
 
 var (
-	addr     = flag.String("listen", ":9000", "port to listen to")
+	addr     = flag.String("listen", "127.0.0.1:8080", "port to listen to")
 	dir      = flag.String("dir", ".", "directory to monitor")
 	interval = flag.Duration("i", 300*time.Millisecond, "poll interval")
 )
@@ -35,13 +36,27 @@ func main() {
 		}
 	}
 
+	if false {
+		go func() {
+			time.Sleep(time.Second)
+			browser.OpenURL("http://" + *addr)
+		}()
+	}
+
 	fmt.Println("Server starting on:", *addr)
+	fmt.Println()
+	fmt.Println("If browser does not open automatically,")
+	fmt.Println("Please open http://" + *addr)
+	fmt.Println()
 	fmt.Println("Watching folder:", *dir)
 	log.Fatal(http.ListenAndServe(*addr, http.HandlerFunc(serve)))
 }
 
 func serve(w http.ResponseWriter, r *http.Request) {
-	DisableCache(w)
+	w.Header().Set("Expires", time.Unix(0, 0).Format(time.RFC1123))
+	w.Header().Set("Cache-Control", "no-cache, private, max-age=0")
+	w.Header().Set("Pragma", "no-cache")
+	w.Header().Set("X-Accel-Expires", "0")
 
 	switch r.URL.Path {
 	case "/":
@@ -49,13 +64,35 @@ func serve(w http.ResponseWriter, r *http.Request) {
 	case "/~reload.js":
 		serveReloadJS(w, r)
 	default:
+		if strings.HasSuffix(r.URL.Path, "~") {
+			serveProject(w, r)
+			return
+		}
 		serveFile(w, r)
 	}
 }
 
-func serveProjects(w http.ResponseWriter, r *http.Request) {
-	DisableCache(w)
+func serveFile(w http.ResponseWriter, r *http.Request) {
+	path := filepath.FromSlash(path.Join(*dir, r.URL.Path))
+	http.ServeFile(w, r, path)
+}
 
+func serveProject(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Path
+	path = strings.TrimSuffix(path, "~")
+
+	t, err := template.ParseFiles("project.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	t.Execute(w, map[string]interface{}{
+		"File": path,
+	})
+}
+
+func serveProjects(w http.ResponseWriter, r *http.Request) {
 	root := *dir
 
 	folderinfos, err := ioutil.ReadDir(root)
@@ -66,7 +103,9 @@ func serveProjects(w http.ResponseWriter, r *http.Request) {
 
 	folders := []*Folder{}
 	for _, folderinfo := range folderinfos {
-		if !folderinfo.IsDir() || strings.HasPrefix(folderinfo.Name(), ".") {
+		if !folderinfo.IsDir() ||
+			strings.HasPrefix(folderinfo.Name(), ".") ||
+			strings.HasPrefix(folderinfo.Name(), "_") {
 			continue
 		}
 		folder := &Folder{}
@@ -81,7 +120,9 @@ func serveProjects(w http.ResponseWriter, r *http.Request) {
 		}
 
 		for _, fileinfo := range fileinfos {
-			if fileinfo.IsDir() || strings.HasPrefix(folderinfo.Name(), ".") {
+			if fileinfo.IsDir() ||
+				strings.HasPrefix(fileinfo.Name(), ".") ||
+				strings.HasPrefix(fileinfo.Name(), "_") {
 				continue
 			}
 			filename := fileinfo.Name()
@@ -121,12 +162,6 @@ type File struct {
 	Title string
 }
 
-func serveFile(w http.ResponseWriter, r *http.Request) {
-	DisableCache(w)
-	path := filepath.FromSlash(path.Join(*dir, r.URL.Path))
-	http.ServeFile(w, r, path)
-}
-
 /* auto-reloader */
 
 func serveReloadJS(w http.ResponseWriter, r *http.Request) {
@@ -135,18 +170,10 @@ func serveReloadJS(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	DisableCache(w)
 	url := "ws://" + r.Host + r.RequestURI
 	data := strings.Replace(ReloaderJS, "DEFAULT_HOST", url, -1)
 	w.Header().Set("Content-Type", "application/javascript")
 	w.Write([]byte(data))
-}
-
-func DisableCache(w http.ResponseWriter) {
-	w.Header().Set("Expires", time.Unix(0, 0).Format(time.RFC1123))
-	w.Header().Set("Cache-Control", "no-cache, private, max-age=0")
-	w.Header().Set("Pragma", "no-cache")
-	w.Header().Set("X-Accel-Expires", "0")
 }
 
 const ReloaderJS = `
@@ -293,7 +320,7 @@ func ServeChanges(conn *websocket.Conn) {
 	fmt.Println("CONNECTED", conn.LocalAddr())
 	defer fmt.Println("DISCONNECTED", conn.LocalAddr())
 
-	watcher := watch.New(*interval, nil, nil, nil, true)
+	watcher := watch.New(*interval, nil, nil, []string{"*.js"}, true)
 	defer watcher.Stop()
 
 	go func() {
@@ -315,6 +342,9 @@ func ServeChanges(conn *websocket.Conn) {
 			pkgname, depends := extractPackageInfo(change.Path)
 			if pkgname == "" {
 				pkgname = path
+			}
+			if path[0] != '/' {
+				path = "/" + path
 			}
 			message.Data = append(message.Data, Change{
 				Kind:     change.Kind,

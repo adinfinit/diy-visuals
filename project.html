@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>{{.File}}</title>
+	<style>
+		* {	
+			margin: 0;
+			padding: 0;
+		}
+		body, html {
+		    width: 100%;
+	    	height: 100%;
+	    	overflow: hidden;
+		}
+		canvas {
+		    position: absolute;
+		}
+	</style>
+	<script type="text/javascript" src="/~reload.js"></script>
+	<script type="text/javascript">
+		var reloader = new Reloader();
+		reloader.onchanges = function(){
+			window.location.reload();
+		};
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+
+	<script src="/_common/math.js"></script>
+	<script src="/_common/extend-canvas.js"></script>
+	<script src="/_common/visual-log.js"></script>
+
+	<script src="{{.File}}"></script>
+</body>
+</html>
