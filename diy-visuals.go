@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"html/template"
 	"io"
 	"io/ioutil"
 	"log"
@@ -24,13 +25,6 @@ var (
 	interval = flag.Duration("i", 300*time.Millisecond, "poll interval")
 )
 
-func DisableCache(w http.ResponseWriter) {
-	w.Header().Set("Expires", time.Unix(0, 0).Format(time.RFC1123))
-	w.Header().Set("Cache-Control", "no-cache, private, max-age=0")
-	w.Header().Set("Pragma", "no-cache")
-	w.Header().Set("X-Accel-Expires", "0")
-}
-
 func main() {
 	flag.Parse()
 
@@ -41,30 +35,118 @@ func main() {
 		}
 	}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		DisableCache(w)
-		path := filepath.FromSlash(path.Join(*dir, r.URL.Path))
-		http.ServeFile(w, r, path)
-	})
-	http.HandleFunc("/~reload.js", ServeReloader)
-
 	fmt.Println("Server starting on:", *addr)
 	fmt.Println("Watching folder:", *dir)
-	log.Fatal(http.ListenAndServe(*addr, nil))
+	log.Fatal(http.ListenAndServe(*addr, http.HandlerFunc(serve)))
 }
 
-func ServeReloader(w http.ResponseWriter, r *http.Request) {
+func serve(w http.ResponseWriter, r *http.Request) {
+	DisableCache(w)
+
+	switch r.URL.Path {
+	case "/":
+		serveProjects(w, r)
+	case "/~reload.js":
+		serveReloadJS(w, r)
+	default:
+		serveFile(w, r)
+	}
+}
+
+func serveProjects(w http.ResponseWriter, r *http.Request) {
+	DisableCache(w)
+
+	root := *dir
+
+	folderinfos, err := ioutil.ReadDir(root)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	folders := []*Folder{}
+	for _, folderinfo := range folderinfos {
+		if !folderinfo.IsDir() || strings.HasPrefix(folderinfo.Name(), ".") {
+			continue
+		}
+		folder := &Folder{}
+		folders = append(folders, folder)
+		folder.Title = folderinfo.Name()
+
+		foldername := filepath.Join(root, folderinfo.Name())
+		fileinfos, err := ioutil.ReadDir(foldername)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		for _, fileinfo := range fileinfos {
+			if fileinfo.IsDir() || strings.HasPrefix(folderinfo.Name(), ".") {
+				continue
+			}
+			filename := fileinfo.Name()
+			if strings.EqualFold(filepath.Ext(filename), ".html") {
+				file := &File{}
+				folder.Files = append(folder.Files, file)
+				file.Title = filename
+				file.URL = path.Join(folderinfo.Name(), filename)
+				continue
+			}
+
+			file := &File{}
+			folder.Files = append(folder.Files, file)
+			file.Title = filename
+			file.URL = path.Join(folderinfo.Name(), filename+"~")
+		}
+	}
+
+	t, err := template.ParseFiles("projects.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	t.Execute(w, map[string]interface{}{
+		"Folders": folders,
+	})
+}
+
+type Folder struct {
+	Title string
+	Files []*File
+}
+
+type File struct {
+	URL   string
+	Title string
+}
+
+func serveFile(w http.ResponseWriter, r *http.Request) {
+	DisableCache(w)
+	path := filepath.FromSlash(path.Join(*dir, r.URL.Path))
+	http.ServeFile(w, r, path)
+}
+
+/* auto-reloader */
+
+func serveReloadJS(w http.ResponseWriter, r *http.Request) {
 	if r.Header.Get("Upgrade") != "" {
 		websocket.Handler(ServeChanges).ServeHTTP(w, r)
 		return
 	}
 
 	DisableCache(w)
-
 	url := "ws://" + r.Host + r.RequestURI
 	data := strings.Replace(ReloaderJS, "DEFAULT_HOST", url, -1)
 	w.Header().Set("Content-Type", "application/javascript")
 	w.Write([]byte(data))
+}
+
+func DisableCache(w http.ResponseWriter) {
+	w.Header().Set("Expires", time.Unix(0, 0).Format(time.RFC1123))
+	w.Header().Set("Cache-Control", "no-cache, private, max-age=0")
+	w.Header().Set("Pragma", "no-cache")
+	w.Header().Set("X-Accel-Expires", "0")
 }
 
 const ReloaderJS = `

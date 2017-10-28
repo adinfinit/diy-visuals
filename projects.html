@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Projects</title>
+  <style>
+  	.folder {
+  		border: 1px solid #ddd;
+  		margin-top: 1em;
+  	}
+
+  	.title {
+  		font-weight: bold;
+		background: #eee;
+		padding: 0.5em;
+  	}
+  	.files {
+  		padding: 0.5em;
+  	}
+  	.file {
+  		display: block;
+  		padding: 0.2em;
+  	}
+  	.file:hover {
+  		background: #eee;
+  	}
+  </style>
+</head>
+<body>
+	{{ range .Folders }}
+	<div class="folder">
+		<div class="title">{{.Title}}</div>
+		<div class="files">
+		{{ range .Files }}
+		<a class="file" href="{{.URL}}">{{.Title}}</a>
+		{{ end }}
+		</div>
+	</div>
+	{{ end }}
+</body>
+</html>
