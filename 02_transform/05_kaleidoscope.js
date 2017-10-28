@@ -53,19 +53,12 @@ function tree(level, time) {
 	context.restore();
 }
 
-// context.strokeStyle = hsla(time * 120, 70, 70, 0.4);
-// context.beginPath();
-// context.lineWidth = 10;
-// context.moveTo(0, 0);
-// context.lineTo(cos(time) * 200, sin(time) * 200);
-// context.stroke();
-
 function render(time) {
 	context.fillStyle = hsla(time * 90, 70, 70, 0.4);
 	context.fillRect(-10, 0, 20, 100);
 	context.fillRect(-10, 50, 20, 20);
 
-	//return;
+	return;
 	tree(7, time);
 }
 
@@ -76,6 +69,9 @@ function update(deltaTime) {
 	context.translate(screenWidth / 2, screenHeight / 2);
 	context.scale(1, -1);
 	context.globalCompositeOperation = "lighten";
+
+	var log = new Log(context, 10, 10, 14, "#fff");
+	log.line("mouse: ", mouseX.toFixed(2), ", ", mouseY.toFixed(2));
 
 	var time = now();
 
