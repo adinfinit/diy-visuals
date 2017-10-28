@@ -70,5 +70,5 @@ function rgba(r, g, b, a) {
 	g = g | 0;
 	b = b | 0;
 	a = clamp(a, 0, 1);
-	return "rgb(" + r + "," + g + ", " + b + ", " + a + ")";
+	return "rgba(" + r + "," + g + ", " + b + ", " + a + ")";
 }

@@ -11,6 +11,7 @@ import (
 	"path"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strings"
 	"time"
 
@@ -139,7 +140,14 @@ func serveProjects(w http.ResponseWriter, r *http.Request) {
 			file.Title = filename
 			file.URL = path.Join(folderinfo.Name(), filename+"~")
 		}
+
+		sort.Slice(folder.Files, func(i, k int) bool {
+			return folder.Files[i].Title < folder.Files[k].Title
+		})
 	}
+	sort.Slice(folders, func(i, k int) bool {
+		return folders[i].Title < folders[k].Title
+	})
 
 	t, err := template.ParseFiles("projects.html")
 	if err != nil {
