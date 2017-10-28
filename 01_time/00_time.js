@@ -17,5 +17,4 @@ window.onresize = function(e) {
 // update the variables
 window.onresize();
 
-// draw something on the screen
-context.fillRect(screenWidth / 2 - 25, screenHeight / 2 - 25, 50, 50);
+// setup timing loop

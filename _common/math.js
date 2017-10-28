@@ -13,6 +13,9 @@
 	}
 })(window || global || {});
 
+var PHI = 1.618033988749894848204586834;
+var TAU = 2 * Math.PI;
+
 var start = 0;
 
 function now() {
@@ -40,6 +43,13 @@ function randomRangeSnap(min, max, snap) {
 	return range * snap + min;
 }
 
+function hsl(h, s, l) {
+	h = h | 0;
+	s = s | 0;
+	l = l | 0;
+	return "hsl(" + h + "," + s + "%, " + l + "%)";
+}
+
 function hsla(h, s, l, a) {
 	h = h | 0;
 	s = s | 0;
@@ -52,7 +62,6 @@ function rgb(r, g, b) {
 	r = r | 0;
 	g = g | 0;
 	b = b | 0;
-	a = clamp(a, 0, 1);
 	return "rgb(" + r + "," + g + ", " + b + ")";
 }
 
