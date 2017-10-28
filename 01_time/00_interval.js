@@ -18,3 +18,8 @@ window.onresize = function(e) {
 window.onresize();
 
 // setup timing loop
+setInterval(function() {
+	context.clearRect(0, 0, screenWidth, screenHeight);
+	context.font = "40px monospace";
+	context.fillText(+new Date(), 100, 100);
+}, 33);
