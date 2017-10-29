@@ -120,6 +120,7 @@ function update(deltaTime) {
 
 	balls.forEach(particle => {
 		particle.resetForce();
+		// particle.addForce(V(0, 500));
 	});
 
 	for (var i = 0; i < balls.length; i++) {

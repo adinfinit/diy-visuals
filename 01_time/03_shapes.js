@@ -37,6 +37,70 @@ function update(deltaTime) {
 	context.arc(250, 250, 50, 0, -now() * 3, true);
 	context.closePath();
 	context.fill();
+
+	{
+		const N = 250;
+
+		var time = now();
+		context.lineWidth = 10;
+		context.fillStyle = "#ccc";
+		context.strokeStyle = "#888";
+		context.beginPath();
+		var cx = 550;
+		var cy = 250;
+
+		for (var i = 0; i < N; i++) {
+			var p = i * TAU / N;
+
+			var r = 150 +
+				sin(time * 7 + p * 5) * 50 +
+				0 * cos(time * 8 + p * 3) * 30 +
+				0 * cos(time * 16 + p * 16) * 10;
+
+			var rx = cx + cos(p) * r;
+			var ry = cy + sin(p) * r;
+			if (i == 0)
+				context.moveTo(rx, ry);
+			else
+				context.lineTo(rx, ry);
+		}
+
+		context.closePath();
+		context.fill();
+		context.stroke();
+	}
+
+	{
+		var top = [];
+		var bottom = [];
+		const N = 40;
+		var time = now();
+		for (var i = 0; i < N; i++) {
+			var t = i / N;
+			var p = 100 * t;
+			top.push({
+				x: p + 100,
+				y: -10 * sin(t * TAU + time * 3) + 350 - 20
+			});
+			bottom.push({
+				x: p + 100,
+				y: 10 * sin(t * TAU + time * 2) + 350 + 20
+			});
+		}
+		context.beginPath();
+		context.moveTo(top[0].x, top[0].y);
+		for (var i = 1; i < N; i++) {
+			context.lineTo(top[i].x, top[i].y);
+		}
+		for (var i = N - 1; i >= 0; i--) {
+			context.lineTo(bottom[i].x, bottom[i].y);
+		}
+		context.closePath();
+		context.fillStyle = "#eee";
+		context.strokeStyle = "#666";
+		context.fill();
+		context.stroke();
+	}
 }
 
 // setup timing loop
