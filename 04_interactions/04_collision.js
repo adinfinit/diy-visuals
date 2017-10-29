@@ -82,6 +82,7 @@ class Ball {
 
 		context.beginPath();
 		context.arc(0, 0, this.radius, 0, TAU, true);
+		// context.rect(-this.radius, -this.radius, this.radius * 2, this.radius * 2);
 		context.fill();
 		context.stroke();
 
@@ -115,7 +116,9 @@ for (var i = 0; i < 20; i++) {
 }
 
 function update(deltaTime) {
-	context.clearRect(0, 0, screen.x, screen.y);
+	//context.clearRect(0, 0, screen.x, screen.y);
+	context.fillStyle = "rgba(255, 255, 255, 0.7)";
+	context.fillRect(0, 0, screen.x, screen.y);
 	context.save();
 
 	balls.forEach(particle => {
