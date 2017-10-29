@@ -59,7 +59,7 @@ function update(deltaTime) {
 	context.translate(screenWidth / 2, screenHeight);
 	context.scale(1, -1);
 
-	var log = new Log(context, 10, 10, 14, "#fff");
+	var log = new Log(context, 10, 10, 14, "#000");
 	log.line("mouse: ", mouseX.toFixed(2), ", ", mouseY.toFixed(2));
 
 	tree(10, now());

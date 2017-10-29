@@ -1,3 +1,14 @@
+CanvasRenderingContext2D.prototype["fillCircle"] = function(x0, y0, r) {
+	this.beginPath();
+	this.arc(x0, y0, r, 0, 2 * Math.PI, true);
+	this.fill();
+};
+
+CanvasRenderingContext2D.prototype["fillSquare"] = function(x0, y0, r) {
+	this.fillRect(x0 - r, y0 - r, 2 * r, 2 * r);
+};
+
+
 CanvasRenderingContext2D.prototype["arrow"] = function(x0, y0, x1, y1) {
 	var hw = (parseInt(this.lineWidth) || 3) / 2;
 	var dx = x1 - x0;
@@ -37,4 +48,23 @@ CanvasRenderingContext2D.prototype["arrow"] = function(x0, y0, x1, y1) {
 		x0 - nrx,
 		y0 - nry);
 	this.lineTo(x0, y0);
+};
+
+CanvasRenderingContext2D.prototype["gizmo"] = function(x0, y0, size) {
+	this.save();
+	context.lineWidth = 5;
+	context.fillStyle = "#f00";
+	context.arrow(x0, y0, x0, y0 + size);
+	context.fill();
+	context.fillStyle = "#00f";
+	context.arrow(x0, y0, x0 + size, y0);
+	context.fill();
+
+	context.fillStyle = rgba(0, 0, 0, 0.1);
+	context.fillRect(x0, y0, x0 + size, y0 + size);
+
+	// context.beginPath();
+	// context.arc(x0, y0, size, 0, TAU, true);
+	// context.fill();
+	this.restore();
 };

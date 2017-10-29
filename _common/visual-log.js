@@ -24,6 +24,9 @@ class Log {
 
 		var line = "";
 		for (var i = 0; i < arguments.length; i++) {
+			if (line[line.length - 1] != " ") {
+				line += " ";
+			}
 			line += arguments[i];
 		}
 

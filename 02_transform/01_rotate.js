@@ -22,20 +22,7 @@ function update(deltaTime) {
 	context.rotate(-now());
 
 	// gizmo
-	context.lineWidth = 5;
-	context.fillStyle = "#f00";
-	context.arrow(0, 0, 0, 100);
-	context.fill();
-	context.fillStyle = "#00f";
-	context.arrow(0, 0, 100, 0);
-	context.fill();
-
-	context.fillStyle = rgba(0, 0, 0, 0.1);
-	context.fillRect(0, 0, 100, 100);
-
-	context.beginPath();
-	context.arc(0, 0, 100, 0, TAU, true);
-	context.fill();
+	context.gizmo(0, 0, 100);
 
 	// draw some content
 	context.strokeStyle = "#0f0";

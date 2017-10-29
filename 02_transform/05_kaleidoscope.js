@@ -19,13 +19,8 @@ var mouseX = 0;
 var mouseY = 0;
 
 window.onmousemove = function(e) {
-	mouseX = e.pageX;
-	mouseY = e.pageY;
-
-	mouseX /= screenWidth;
-	mouseY /= screenHeight;
-	mouseX = 2 * (mouseX - 0.5);
-	mouseY = 2 * (mouseY - 0.5);
+	mouseX = map(e.pageX, 0, screenWidth, -1, 1);
+	mouseY = map(e.pageY, 0, screenHeight, -1, 1);
 };
 
 function tree(level, time) {

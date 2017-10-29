@@ -28,6 +28,8 @@ function tree(level, time) {
 		context.fillStyle = "#000";
 		context.fillRect(-5, 0, 10, height);
 
+		// context.gizmo(0, 0, height * 0.5);
+
 		context.translate(0, height);
 		context.scale(0.7, 0.7);
 

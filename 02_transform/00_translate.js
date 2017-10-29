@@ -36,6 +36,8 @@ function update(deltaTime) {
 	context.arc(0, 0, 100, 0, TAU, true);
 	context.fill();
 
+	// context.gizmo(0, 0, 100);
+
 	// draw some content
 	context.strokeStyle = "#0f0";
 	var time = now();
