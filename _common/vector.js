@@ -9,6 +9,11 @@ class Vector {
 	static lerp(a, b, p) {
 		return a.add(b.sub(a).mul(p));
 	}
+	static random(s) {
+		var x = Math.random() * 2 * s - s;
+		var y = Math.random() * 2 * s - s;
+		return V(x, y).clampLength(s);
+	}
 	static lerpClamp(a, b, p) {
 		if (p < 0) p = 0;
 		if (p > 1) p = 1;
@@ -42,6 +47,16 @@ class Vector {
 			return new Vector(this.x / v, this.y / v);
 		return new Vector(this.x / v.x, this.y / v.y);
 	}
+	clampLength(targetLength) {
+		var len = this.length;
+		if (len > targetLength) {
+			return this.div(len);
+		}
+		return this.clone();
+	}
+	scaleTo(targetLength) {
+		return this.mul(targetLength / this.length);
+	}
 	eq(v) {
 		return this.x == v.x && this.y == v.y;
 	}
@@ -51,8 +66,11 @@ class Vector {
 	get length() {
 		return Math.sqrt(this.dot(this));
 	}
+	get normal() {
+		return (new Vector(-this.y, this.x)).unit;
+	}
 	get unit() {
-		return this.div(this.length());
+		return this.div(this.length);
 	}
 	get min() {
 		return Math.min(this.x, this.y);
@@ -81,6 +99,7 @@ function V(x, y) {
 	return new Vector(x, y);
 }
 
+V.random = Vector.random;
 V.fromAngle = Vector.fromAngle;
 V.lerp = Vector.lerp;
 V.lerpClamp = Vector.lerpClamp;
