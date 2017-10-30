@@ -24,6 +24,7 @@ import (
 var (
 	addr     = flag.String("listen", "127.0.0.1:8080", "port to listen to")
 	dir      = flag.String("dir", ".", "directory to monitor")
+	debug    = flag.Bool("debug", false, "don't auto open browser")
 	interval = flag.Duration("i", 300*time.Millisecond, "poll interval")
 )
 
@@ -37,7 +38,7 @@ func main() {
 		}
 	}
 
-	if false {
+	if !*debug {
 		go func() {
 			time.Sleep(time.Second)
 			browser.OpenURL("http://" + *addr)
