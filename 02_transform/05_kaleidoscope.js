@@ -53,7 +53,7 @@ function render(time) {
 	context.fillRect(-10, 0, 20, 100);
 	context.fillRect(-10, 50, 20, 20);
 
-	tree(7, time);
+	tree(4, time);
 }
 
 function update(deltaTime) {

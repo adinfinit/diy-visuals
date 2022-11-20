@@ -123,7 +123,7 @@ class Easer {
 		var p1 = V(screen.x - 200, y);
 		var time = this.time % 1;
 		var easedTime = this.ease(time);
-		var color = hsl(this.index * PHI * 180, 80, 30);
+		var color = hsl(this.index * PHI * 180, 80, 35);
 
 		{ // draw line
 			context.fillStyle = rgba(0, 0, 0, 0.2);
@@ -166,7 +166,7 @@ class Easer {
 		}
 
 		{ // draw graph
-			var r0 = p1.add(V(25, 0));
+			var r0 = p1.add(V(25, -25));
 			if (this.index % 2 == 1) {
 				r0 = r0.add(V(75, 0));
 			}
