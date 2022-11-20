@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"path"
 	"path/filepath"
 	"sort"
@@ -134,17 +135,27 @@ func serveProjects(w http.ResponseWriter, r *http.Request) {
 		}
 
 		for _, fileinfo := range fileinfos {
-			if fileinfo.IsDir() ||
-				strings.HasPrefix(fileinfo.Name(), ".") ||
+			if strings.HasPrefix(fileinfo.Name(), ".") ||
 				strings.HasPrefix(fileinfo.Name(), "_") {
 				continue
 			}
 			filename := fileinfo.Name()
+
+			if fileinfo.IsDir() {
+				if _, err := os.Stat(filepath.Join(foldername, filename, "index.html")); err == nil {
+					folder.Files = append(folder.Files, &File{
+						Title: filename,
+						URL:   path.Join(folderinfo.Name(), filename),
+					})
+				}
+				continue
+			}
+
 			if strings.EqualFold(filepath.Ext(filename), ".html") {
-				file := &File{}
-				folder.Files = append(folder.Files, file)
-				file.Title = filename
-				file.URL = path.Join(folderinfo.Name(), filename)
+				folder.Files = append(folder.Files, &File{
+					Title: filename,
+					URL:   path.Join(folderinfo.Name(), filename),
+				})
 				continue
 			}
 
