@@ -1,22 +1,23 @@
 "use strict";
 
-var canvas = document.getElementById("canvas");
+const canvas = document.getElementById("canvas");
 /** @type {CanvasRenderingContext2D} */
-var context = canvas.getContext("2d");
+const context = canvas.getContext("2d");
 
 // set canvas size to the correct size
-var screenWidth = 0;
-var screenHeight = 0;
-window.onresize = function(e) {
+let screenWidth = 0;
+let screenHeight = 0;
+
+function onresize() {
 	screenWidth = window.innerWidth;
 	screenHeight = window.innerHeight;
 
 	canvas.width = screenWidth;
 	canvas.height = screenHeight;
-};
-
+}
+window.addEventListener("resize", onresize);
 // update the variables
-window.onresize();
+onresize();
 
 // draw something on the screen
 context.fillRect(screenWidth / 2 - 25, screenHeight / 2 - 25, 50, 50);

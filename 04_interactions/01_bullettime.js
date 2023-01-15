@@ -1,26 +1,26 @@
 "use strict";
 
-var canvas = document.getElementById("canvas");
+const canvas = document.getElementById("canvas");
 /** @type {CanvasRenderingContext2D} */
-var context = canvas.getContext("2d");
+const context = canvas.getContext("2d");
 
 // set canvas size to the correct size
-var screen = V(0, 0);
-window.onresize = function(e) {
+let screen = V(0, 0);
+function onresize() {
 	screen.x = window.innerWidth;
 	screen.y = window.innerHeight;
 
 	canvas.width = screen.x;
 	canvas.height = screen.y;
-};
-window.onresize();
+}
+window.addEventListener("resize", onresize);
+onresize()
 
-var mouse = screen.mul(0.5);
-
-window.onmousemove = function(e) {
+let mouse = screen.mul(0.5);
+window.addEventListener("mousemove", function (e) {
 	mouse.x = e.pageX;
 	mouse.y = e.pageY;
-};
+})
 
 function easeInOutQuad(t) {
 	return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t
