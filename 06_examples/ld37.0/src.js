@@ -1,12 +1,12 @@
 "use strict";
 
-var canvas = document.getElementById('view'),
+const canvas = document.getElementById('view'),
     /** @type {CanvasRenderingContext2D} */
     context = canvas.getContext("2d");
 
-var TAU = Math.PI * 2;
+const TAU = Math.PI * 2;
 
-var Time = 0.0;
+let Time = 0.0;
 
 function Vector(x, y, z) {
     this.X = +x;
@@ -16,26 +16,26 @@ function Vector(x, y, z) {
 
 Vector.prototype = {
     Set: function (b) {
-        var a = this;
+        const a = this;
         a.X = b.X;
         a.Y = b.Y;
         a.Z = b.Z;
     },
     Add: function (b) {
-        var a = this;
+        const a = this;
         a.X += b.X;
         a.Y += b.Y;
         a.Z += b.Z;
     },
     AddScaled: function (b, s) {
-        var a = this;
+        const a = this;
         a.X += b.X * s;
         a.Y += b.Y * s;
         a.Z += b.Z * s;
     }
 }
 
-var Size = new Vector(0, 0);
+const Size = new Vector(0, 0);
 
 window.onresize = function (e) {
     Size.X = window.innerWidth;
@@ -46,9 +46,9 @@ window.onresize = function (e) {
 };
 window.onresize();
 
-var Min = Math.min;
-var Max = Math.max;
-var Abs = Math.abs;
+const Min = Math.min;
+const Max = Math.max;
+const Abs = Math.abs;
 
 function Random(size) {
     return Math.random() * size;
@@ -69,7 +69,7 @@ function RandomVector(low, high) {
 function Text(text, height, x, y, color) {
     context.fillStyle = color || "#fff";
     context.font = "Bold " + height + "px Tahoma";
-    var width = context.measureText(text).width;
+    const width = context.measureText(text).width;
     context.fillText(text, x - width / 2, y + height / 2);
 }
 
@@ -80,7 +80,7 @@ function Project(into, v) {
 }
 
 function Snake() {
-    var snake = this;
+    const snake = this;
     snake.Head = 0;
     snake.Velocity = new Vector(0, 0, 0);
     snake.Multiplier = RandomVector(-10, 10);
@@ -100,12 +100,12 @@ function Snake() {
 
 Snake.prototype = {
     tick: function (dt) {
-        var snake = this;
+        const snake = this;
 
-        var last = snake.Spine[snake.Head];
+        const last = snake.Spine[snake.Head];
         snake.Head = (snake.Head - 1 + snake.Spine.length) % snake.Spine.length;
 
-        var head = snake.Spine[snake.Head];
+        const head = snake.Spine[snake.Head];
         head.Set(last);
         head.AddScaled(snake.Velocity, dt);
 
@@ -127,20 +127,20 @@ Snake.prototype = {
     },
 
     Render: function (context) {
-        var snake = this;
+        const snake = this;
 
         context.save();
 
         context.lineWidth = 20;
         context.strokeStyle = "hsla(" + (snake.Hue | 0) + ", 80%, 60%, 0.7)";
 
-        var head = snake.Spine[snake.Head];
+        const head = snake.Spine[snake.Head];
 
-        var p = new Vector();
-        var pp = new Vector();
-        for (var i = snake.Head; i < snake.Head + snake.Spine.length; i += 2) {
-            var seg1 = snake.Spine[i % snake.Spine.length];
-            var seg2 = snake.Spine[(i + 1) % snake.Spine.length];
+        const p = new Vector();
+        const pp = new Vector();
+        for (let i = snake.Head; i < snake.Head + snake.Spine.length; i += 2) {
+            const seg1 = snake.Spine[i % snake.Spine.length];
+            const seg2 = snake.Spine[(i + 1) % snake.Spine.length];
 
             Project(pp, seg1);
             Project(p, seg2);
@@ -156,7 +156,7 @@ Snake.prototype = {
     }
 }
 
-var snakes = [
+const snakes = [
     new Snake(),
     new Snake(),
     new Snake(),
@@ -176,7 +176,7 @@ var snakes = [
 function Tick(dt) {
     Time += dt;
 
-    var gradient = context.createRadialGradient(
+    const gradient = context.createRadialGradient(
         Size.X / 2, Size.Y / 2,
         Math.min(Size.X / 2, Size.Y / 2) / 3,
 
@@ -189,15 +189,15 @@ function Tick(dt) {
     context.fillStyle = gradient;
     context.fillRect(0, 0, Size.X, Size.Y);
 
-    context.globalCompositionOperator = "lighten";
+    context.globalCompositeOperation = "lighten";
 
-    for (var i = 0; i < snakes.length; i++) {
-        var snake = snakes[i];
+    for (let i = 0; i < snakes.length; i++) {
+        const snake = snakes[i];
         snake.Tick(dt);
         snake.Render(context);
     }
 
-    context.globalCompositionOperator = "source-over";
+    context.globalCompositeOperation = "source-over";
 
     Text("LD37", 80, Size.X / 2, Size.Y / 2);
 

@@ -1,12 +1,12 @@
 "use strict";
 
-var canvas = document.getElementById('view'),
+const canvas = document.getElementById('view'),
     /** @type {CanvasRenderingContext2D} */
     context = canvas.getContext("2d");
 
-var TAU = Math.PI * 2;
+const TAU = Math.PI * 2;
 
-var view = {
+const view = {
     size: {
         x: 0,
         y: 0
@@ -33,22 +33,22 @@ window.onresize();
 
 
 function poly(N, s) {
-    var points = [];
-    for (var i = 0; i < N; i += 1) {
+    const points = [];
+    for (let i = 0; i < N; i += 1) {
         points.push({
             x: s * Math.cos(TAU * i / N),
             y: s * Math.sin(TAU * i / N)
         });
     }
     return points;
-};
+}
 
 function drawpoly(context, poly, id, coord) {
     context.beginPath();
-    for (var i = 1; i < poly.length; i++) {
-        var p = poly[i];
-        var x = p.x * (Math.cos(coord.x + id * 0.9) + Math.sin(i * id / 3) + 2) / 2;
-        var y = p.y * (Math.cos(coord.y + id * 1.1) + Math.sin(i * id / 3) + 2) / 2;
+    for (let i = 1; i < poly.length; i++) {
+        const p = poly[i];
+        const x = p.x * (Math.cos(coord.x + id * 0.9) + Math.sin(i * id / 3) + 2) / 2;
+        const y = p.y * (Math.cos(coord.y + id * 1.1) + Math.sin(i * id / 3) + 2) / 2;
         if (i == 0) {
             context.moveTo(x, y);
         } else {
@@ -59,12 +59,12 @@ function drawpoly(context, poly, id, coord) {
 }
 
 
-var flicker = [];
+const flicker = [];
 for (var i = 0; i < 20; i++) {
     flicker.push(Math.random());
 }
 
-var letters = [{
+const letters = [{
     t: "L",
     x: [0, 0, 0, 1],
     y: [0, 0.5, 1, 1]
@@ -83,10 +83,10 @@ var letters = [{
     y: [0, 0, 0.5, 1, 1, 0.5, 0.5]
 }];
 
-var time = 0;
+let time = 0;
 
 function X() {
-    var s = Math.abs(
+    const s = Math.abs(
         Math.cos(time * 0.42 * 0.3) *
         Math.sin(time * 0.51 * 0.3) *
         view.size.y / 24
@@ -96,8 +96,8 @@ function X() {
 
 function drawletter(p, sz, letter) {
     context.beginPath();
-    for (var i = 0; i < letter.x.length; i++) {
-        var g = {
+    for (let i = 0; i < letter.x.length; i++) {
+        const g = {
             x: p.x + sz.x * letter.x[i] + X(),
             y: p.y + sz.y * letter.y[i] + X()
         };
@@ -120,7 +120,7 @@ function drawletter(p, sz, letter) {
 function tick(dt) {
     time += dt;
 
-    var g = context.createRadialGradient(
+    const g = context.createRadialGradient(
         view.size.x / 2, view.size.y / 2,
         Math.min(view.size.x / 2, view.size.y / 2) / 3,
 
@@ -143,7 +143,7 @@ function tick(dt) {
             flicker[i] = Math.random();
         }
 
-        var y = (flicker[i] * view.size.y) | 0;
+        const y = (flicker[i] * view.size.y) | 0;
         context.fillStyle = "hsla(90,80%,70%,0.2)";
         context.fillRect(0, y, view.size.x, 3);
     }
@@ -151,14 +151,14 @@ function tick(dt) {
     context.strokeStyle = "#ccc";
     context.lineWidth = 8;
 
-    var sz = {
+    const sz = {
         x: 0,
         y: view.size.y / 4
     };
     sz.x = sz.y * 0.7;
 
-    var pads = 1 + 0.5;
-    var p = {
+    const pads = 1 + 0.5;
+    const p = {
         x: view.size.x / 2 - letters.length * sz.x * pads / 2,
         y: view.size.y / 2 - sz.y / 2
     };
@@ -174,14 +174,14 @@ function tick(dt) {
     context.fillStyle = g;
     context.fillRect(0, 0, view.size.x, view.size.y);
 
-    var liney = 230;
+    let liney = 230;
 
     function line(size, text, x, dy) {
         context.font = "Bold " + size + "px monospace";
-        var w = context.measureText(text).width;
+        const w = context.measureText(text).width;
         x -= w / 2;
 
-        var rx = String.fromCharCode((Math.random() * 1500 + 32) | 0);
+        const rx = String.fromCharCode((Math.random() * 1500 + 32) | 0);
         context.fillText(text, x, liney);
         context.strokeText(text, x, liney);
 
@@ -193,11 +193,11 @@ function tick(dt) {
     context.lineWidth = 1;
     context.strokeStyle = "hsla(90,100%,0%,1)";
 
-    var starty = 40;
+    const starty = 40;
 
-    var fontsz = view.size.y / 10;
+    const fontsz = view.size.y / 10;
     liney = fontsz * 2;
-    var px = view.size.x / 2;
+    const px = view.size.x / 2;
     liney = view.size.y / 2;
     line(fontsz, "Ancient Technology", px, 10);
 

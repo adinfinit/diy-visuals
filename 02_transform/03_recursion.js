@@ -29,7 +29,7 @@ function tree(level, time) {
 
     context.save();
     {
-        var height = screenHeight * 0.3;
+        const height = screenHeight * 0.3;
 
         context.fillStyle = "#000";
         context.fillRect(-5, 0, 10, height);
@@ -39,8 +39,8 @@ function tree(level, time) {
         context.translate(0, height);
         context.scale(0.7, 0.7);
 
-        var rotateLeft = sin(time * 3 + TAU * 0.1);
-        var rotateRight = sin(time * 4 - TAU * 0.1);
+        const rotateLeft = sin(time * 3 + TAU * 0.1);
+        const rotateRight = sin(time * 4 - TAU * 0.1);
 
         context.rotate(rotateLeft);
         tree(level, time);
@@ -48,7 +48,7 @@ function tree(level, time) {
         context.rotate(rotateRight);
         tree(level, time);
     }
-    ;
+
     context.restore();
 }
 
@@ -66,11 +66,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

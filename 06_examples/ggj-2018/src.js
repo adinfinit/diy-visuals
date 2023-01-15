@@ -1,14 +1,14 @@
 "use strict";
 
-var canvas = document.getElementById('view'),
+const canvas = document.getElementById('view'),
     /** @type {CanvasRenderingContext2D} */
     context = canvas.getContext("2d");
 
-var TAU = Math.PI * 2;
-var PHI = 1.61803398874989484820;
+const TAU = Math.PI * 2;
+const PHI = 1.61803398874989484820;
 
-var screenWidth = 0;
-var screenHeight = 0;
+let screenWidth = 0;
+let screenHeight = 0;
 window.onresize = function (e) {
     screenWidth = window.innerWidth;
     screenHeight = window.innerHeight;
@@ -18,21 +18,21 @@ window.onresize = function (e) {
 };
 window.onresize();
 
-var Light = "hsla(57, 88%, 65%, 1)";
-var Dark = "hsla(244, 49%, 25%, 1)";
+const Light = "hsla(57, 88%, 65%, 1)";
+const Dark = "hsla(244, 49%, 25%, 1)";
 
-var BOUNCE = 0;
+let BOUNCE = 0;
 
 (function (tick) {
-    var last = new Date();
-    var time = 0;
+    let last = new Date();
+    let time = 0;
 
     function update() {
         window.requestAnimationFrame(update);
         try {
             context.save();
-            var now = new Date();
-            var dt = (now - last) * 0.001;
+            const now = new Date();
+            let dt = (now - last) * 0.001;
             last = now;
             if (dt > 0.1) {
                 dt = 0.1;
@@ -43,9 +43,9 @@ var BOUNCE = 0;
                 BOUNCE += dt / 2.5;
             }
 
-            var s = Math.sin(time * 8);
-            var c = Math.cos(time * 7.3);
-            var offset = 1 + (s + c) * 0.008;
+            const s = Math.sin(time * 8);
+            const c = Math.cos(time * 7.3);
+            const offset = 1 + (s + c) * 0.008;
             //tick(dt * offset);
             tick(dt);
         } finally {
@@ -71,8 +71,8 @@ function bounce(t, start, end, duration) {
     duration = +duration;
 
     t = t / duration
-    var ts = t * t
-    var tc = ts * t
+    const ts = t * t;
+    const tc = ts * t;
     return start + end * (33 * tc * ts + -106 * ts * ts + 126 * tc + -67 * ts + 15 * t)
 }
 
@@ -189,13 +189,13 @@ function debugDir(p, angle, len, size, color) {
     context.lineWidth = size;
     context.beginPath();
     context.moveTo(p.x, p.y);
-    var t = p.add(Vector.fromAngle(angle, len));
+    const t = p.add(Vector.fromAngle(angle, len));
     context.lineTo(t.x, t.y);
     context.stroke();
 }
 
-var camera = Vector.Zero;
-var hue = 0;
+const camera = Vector.Zero;
+let hue = 0;
 
 class Comet {
     constructor() {
@@ -205,7 +205,7 @@ class Comet {
 
     reset() {
         this.hue = (random(0, 360) | 0);
-        var dir = random(0, 1) < 0.5 ? -1 : 1;
+        const dir = random(0, 1) < 0.5 ? -1 : 1;
         this.V = new Vector(dir * random(100, 200), random(0, 10));
 
         if (this.V.x < 0) {
@@ -214,12 +214,12 @@ class Comet {
             var px = random(-this.V.x * 15, screenWidth);
         }
         this.P = new Vector(px, -50);
-        ;
+
         this.R = random(3, 6);
 
-        var p = this.P;
+        const p = this.P;
         this.tail = [];
-        for (var i = 0; i < 10; i++) {
+        for (let i = 0; i < 10; i++) {
             this.tail.push(new Vector(p.x, p.y));
         }
     }
@@ -241,9 +241,9 @@ class Comet {
         if (last.y > screenHeight * 1.3) this.reset();
 
         var last = this.P;
-        var grab = 0.2;
-        for (var i = 0; i < this.tail.length; i++) {
-            var p = this.tail[i];
+        let grab = 0.2;
+        for (let i = 0; i < this.tail.length; i++) {
+            const p = this.tail[i];
             p.zlerpTowards(last, grab);
             grab -= 0.01;
             last = p;
@@ -251,17 +251,17 @@ class Comet {
     }
 
     draw(context) {
-        var hue = this.hue;
-        var h = screenHeight * 0.6;
+        let hue = this.hue;
+        const h = screenHeight * 0.6;
 
-        var alpha = 0.9;
+        let alpha = 0.9;
 
-        var lit = (this.P.y / h) * 100 | 0;
-        var sat = Math.max(80 - lit, 0);
-        var r = this.R;
+        const lit = (this.P.y / h) * 100 | 0;
+        const sat = Math.max(80 - lit, 0);
+        let r = this.R;
 
-        for (var i = 0; i < this.tail.length; i++) {
-            var p = this.tail[i];
+        for (let i = 0; i < this.tail.length; i++) {
+            const p = this.tail[i];
 
             context.fillStyle = "hsla(" + hue + ", " + sat + "%, " + lit + "%, " + alpha + ")";
 
@@ -282,7 +282,7 @@ class Comet {
     }
 }
 
-var comets = [];
+const comets = [];
 for (var i = 0; i < 70; i++) {
     comets.push(new Comet());
 }
@@ -291,16 +291,16 @@ function Tick(dt) {
     context.save();
     {
         hue += dt * 10;
-        var sat = 80 + Math.sin(hue) * 10;
-        var lit = 10;
+        const sat = 80 + Math.sin(hue) * 10;
+        const lit = 10;
 
         function linearGradient(full, y0, y1, stops) {
             y0 *= screenHeight;
             y1 *= screenHeight;
 
-            var g = context.createLinearGradient(0, y0, 0, y1);
+            const g = context.createLinearGradient(0, y0, 0, y1);
 
-            for (var i = 0; i < stops.length; i++) {
+            for (let i = 0; i < stops.length; i++) {
                 g.addColorStop(stops[i][0], stops[i][1]);
             }
 
@@ -342,7 +342,7 @@ function Tick(dt) {
     context.restore();
 
     function textWithShadow(text, x, y, size, align) {
-        var fontSize = (screenHeight * size) | 0;
+        const fontSize = (screenHeight * size) | 0;
         context.font = fontSize + "px Georgia small-caps";
         var size = context.measureText(text);
 
@@ -369,26 +369,26 @@ function Tick(dt) {
             return x < 0 ? x : x < 10 ? "0" + x : x;
         }
 
-        var now = new Date();
-        var target = new Date(2017, 11, 4, targethours);
-        var totalSeconds = (target - now) / 1000;
+        const now = new Date();
+        const target = new Date(2017, 11, 4, targethours);
+        const totalSeconds = (target - now) / 1000;
         if (totalSeconds < 0) {
             return "";
         }
 
-        var hours = (totalSeconds / (60 * 60)) | 0;
-        var minutes = ((totalSeconds / 60) - hours * 60) | 0;
-        var seconds = (totalSeconds - minutes * 60 - hours * 60 * 60) | 0;
+        const hours = (totalSeconds / (60 * 60)) | 0;
+        const minutes = ((totalSeconds / 60) - hours * 60) | 0;
+        const seconds = (totalSeconds - minutes * 60 - hours * 60 * 60) | 0;
 
         return hours + ":" + pad(minutes) + ":" + pad(seconds);
     }
 
     {
-        var base = screenHeight * 0.02;
-        var step = screenHeight * 0.05;
-        var block = screenHeight * 0.1;
+        const base = screenHeight * 0.02;
+        const step = screenHeight * 0.05;
+        const block = screenHeight * 0.1;
         var x = screenWidth / 2 - screenWidth * 0.04;
-        var x2 = screenWidth / 2 + screenWidth * 0.04;
+        const x2 = screenWidth / 2 + screenWidth * 0.04;
 
         textWithShadow("Global Game Jam\n2018",
             screenWidth * 0.5,

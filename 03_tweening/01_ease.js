@@ -24,7 +24,7 @@ window.addEventListener("mousemove", function (e) {
     mouse.y = e.pageY;
 })
 
-var easingFunctions = {
+const easingFunctions = {
     // no easing, no acceleration
     linear: function (t) {
         return t
@@ -98,14 +98,14 @@ var easingFunctions = {
         return 0.0005 * (t - 1) * (t - 1) * t * (44851 - 224256 * t + 224256 * t * t)
     },
     cube: function (t) {
-        var s = sin(t * TAU);
+        const s = sin(t * TAU);
         return t + s * s * s / 2;
     },
     cube2: function (t) {
-        var s = sin(t * TAU);
+        const s = sin(t * TAU);
         return t + s * s * s * s / 2;
     }
-}
+};
 
 class Easer {
     constructor(name, ease, p) {
@@ -121,12 +121,12 @@ class Easer {
     }
 
     render(context) {
-        var y = lerp(50, screen.y - 50, this.p);
-        var p0 = V(200, y);
-        var p1 = V(screen.x - 200, y);
-        var time = this.time % 1;
-        var easedTime = this.ease(time);
-        var color = hsl(this.index * PHI * 180, 80, 35);
+        const y = lerp(50, screen.y - 50, this.p);
+        const p0 = V(200, y);
+        const p1 = V(screen.x - 200, y);
+        const time = this.time % 1;
+        const easedTime = this.ease(time);
+        const color = hsl(this.index * PHI * 180, 80, 35);
 
         { // draw line
             context.fillStyle = rgba(0, 0, 0, 0.2);
@@ -134,7 +134,7 @@ class Easer {
             context.fillStyle = "#000";
             context.fillText(this.name, p0.x, p0.y - 3);
 
-            var p = V.lerp(p0, p1, easedTime);
+            const p = V.lerp(p0, p1, easedTime);
             context.fillStyle = color;
             context.fillCircle(p.x, p.y + 5, 5);
         }
@@ -162,18 +162,18 @@ class Easer {
             context.translate(150, y);
             var rotation = lerp(0, TAU / 2, easedTime);
             context.rotate(rotation);
-            var scaling = lerp(1, 1.5, easedTime);
+            const scaling = lerp(1, 1.5, easedTime);
             context.scale(scaling, scaling);
             context.fillSquare(0, 0, 15);
             context.restore();
         }
 
         { // draw graph
-            var r0 = p1.add(V(25, -25));
+            let r0 = p1.add(V(25, -25));
             if (this.index % 2 == 1) {
                 r0 = r0.add(V(75, 0));
             }
-            var r1 = r0.add(V(50, 50));
+            const r1 = r0.add(V(50, 50));
             context.fillStyle = "#eee";
             context.beginPath();
             context.rect(r0.x, r0.y, r1.x - r0.x, r1.y - r0.y);
@@ -184,12 +184,12 @@ class Easer {
             context.strokeStyle = color;
             context.beginPath();
             const N = 20;
-            for (var i = 0; i <= N; i++) {
+            for (let i = 0; i <= N; i++) {
                 var px = i / N;
                 var py = this.ease(px);
 
-                var tx = lerp(r0.x, r1.x, px);
-                var ty = lerp(r1.y, r0.y, py);
+                const tx = lerp(r0.x, r1.x, px);
+                const ty = lerp(r1.y, r0.y, py);
                 if (i == 0)
                     context.moveTo(tx, ty);
                 else
@@ -209,7 +209,7 @@ class Easer {
     }
 }
 
-var easers = [];
+const easers = [];
 for (var name in easingFunctions) {
     var ease = easingFunctions[name];
     easers.push(new Easer(name, ease, 0));
@@ -232,11 +232,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

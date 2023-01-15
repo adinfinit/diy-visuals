@@ -1,14 +1,14 @@
 "use strict";
 
-var canvas = document.getElementById('view'),
+const canvas = document.getElementById('view'),
     /** @type {CanvasRenderingContext2D} */
     context = canvas.getContext("2d");
 
-var TAU = Math.PI * 2;
-var PHI = 1.61803398874989484820;
+const TAU = Math.PI * 2;
+const PHI = 1.61803398874989484820;
 
-var Time = 0.0;
-var Scale = 10.0;
+let Time = 0.0;
+const Scale = 10.0;
 
 function Vector(x, y) {
     this.X = +x || 0.0;
@@ -17,58 +17,58 @@ function Vector(x, y) {
 
 Vector.prototype = {
     Zero: function () {
-        var a = this;
+        const a = this;
         a.X = 0.0;
         a.Y = 0.0;
     },
     Clone: function () {
-        var a = this;
+        const a = this;
         return new Vector(a.X, a.Y);
     },
     Set: function (b) {
-        var a = this;
+        const a = this;
         a.X = b.X;
         a.Y = b.Y;
     },
     Add: function (b) {
-        var a = this;
+        const a = this;
         a.X += b.X;
         a.Y += b.Y;
     },
     Sub: function (b) {
-        var a = this;
+        const a = this;
         a.X -= b.X;
         a.Y -= b.Y;
     },
     AddScaled: function (b, s) {
-        var a = this;
+        const a = this;
         a.X += b.X * s;
         a.Y += b.Y * s;
     },
     SubScaled: function (b, s) {
-        var a = this;
+        const a = this;
         a.X -= b.X * s;
         a.Y -= b.Y * s;
     },
     Scale: function (s) {
-        var a = this;
+        const a = this;
         a.X *= s;
         a.Y *= s;
     },
     Length: function () {
-        var a = this;
+        const a = this;
         return Math.sqrt(
             a.X * a.X +
             a.Y * a.Y
         );
     },
     Length2: function () {
-        var a = this;
+        const a = this;
         return a.X * a.X + a.Y * a.Y;
     }
 }
 
-var Size = new Vector(0, 0);
+const Size = new Vector(0, 0);
 
 window.onresize = function (e) {
     Size.X = window.innerWidth;
@@ -79,9 +79,9 @@ window.onresize = function (e) {
 };
 window.onresize();
 
-var Min = Math.min;
-var Max = Math.max;
-var Abs = Math.abs;
+const Min = Math.min;
+const Max = Math.max;
+const Abs = Math.abs;
 
 function Random(size) {
     return Math.random() * size;
@@ -104,23 +104,23 @@ function Text(text, height, x, y, color, stroke, font) {
     context.font = height + "px " + (font || "Perfect Dark");
     context.lineWidth = height / 6;
 
-    var lines = text.split("\n");
+    const lines = text.split("\n");
 
-    var width = 0;
+    let width = 0;
     for (var i = 0; i < lines.length; i++) {
-        var w = context.measureText(lines[i]).width;
+        const w = context.measureText(lines[i]).width;
         if (w > width) {
             width = w;
         }
     }
 
-    var totalHeight = lines.length * height;
+    const totalHeight = lines.length * height;
 
     x -= width / 2;
     y += height / 2 - totalHeight / 2;
 
     for (var i = 0; i < lines.length; i++) {
-        var line = lines[i];
+        const line = lines[i];
         context.beginPath();
         context.strokeText(line, x, y);
         context.fillText(line, x, y);
@@ -135,7 +135,7 @@ function TextRight(text, height, x, y, color, stroke) {
     context.lineWidth = height / 30;
     context.font = height + "px Perfect Dark";
 
-    var width = context.measureText(text).width;
+    const width = context.measureText(text).width;
     context.beginPath();
     context.strokeText(text, x - width, y + height / 2);
     context.fillText(text, x - width, y + height / 2);
@@ -152,10 +152,10 @@ function TextLeft(text, height, x, y, color, stroke) {
     context.fillText(text, x, y + height / 2);
 }
 
-var QuoteTimer = 0.0;
-var QuoteIndex = 0;
-var Quote = "";
-var Quotes = [
+let QuoteTimer = 0.0;
+const QuoteIndex = 0;
+let Quote = "";
+const Quotes = [
     "When life gives you lemons, don't make lemonade.\nMake life take the lemons back.\nGET MAD!\nI DON'T WANT YOUR DAMN LEMONS!\nWHAT AM I SUPPOSED TO DO WITH THESE?!\nDEMAND TO SEE LIFE'S MANAGER!\nMake life RUE the day it thought it could give CAVE JOHNSON LEMONS!\nDO YOU KNOW WHO I AM?!\nI'M THE MAN WHO'S GONNA BURN YOUR HOUSE DOWN!\nWITH THE LEMONS!\nI'm gonna get my engineers to invent a combustible lemon\nthat's gonna BURN YOUR HOUSE DOWN!\n - Cave Johnson",
     "Also an inspiring quote!",
     "*You suddenly feel very inspired.*",
@@ -165,14 +165,14 @@ var Quotes = [
     "Sometimes following that wild and\ncompletely unrealistic idea\nchanges the world round you\nfor the better.\nIn other words - just do it!",
     '"READY FOR THE MOSH PIT, SHAKA BRAH?"\n- Maxine "Max" Caulfield',
     "Some quit due to slow progress,\nnever grasping that slow progress IS progress."
-]
+];
 
-var k = 0;
-var N = 5;
+let k = 0;
+const N = 5;
 
-var AngleChange = 0.2;
-var Phase = 0;
-var Homing = false;
+let AngleChange = 0.2;
+let Phase = 0;
+let Homing = false;
 
 function Node() {
     this.Position = new Vector(0, 0);
@@ -187,34 +187,34 @@ function Node() {
 
 Node.prototype = {
     Update: function (dt) {
-        var node = this;
+        const node = this;
         node.Position.X += Math.cos(node.Angle) * node.Speed * dt;
         node.Position.Y += Math.sin(node.Angle) * node.Speed * dt;
     },
     Home: function (dt) {
-        var node = this;
+        const node = this;
         // var delta = node.Position.Clone();
         // delta.Scale(-dt);
-        for (var k = 0; k < node.Path.length; k++) {
+        for (let k = 0; k < node.Path.length; k++) {
             //node.Path[k].AddScaled(delta, 2 * (k & 1) - 1);
             node.Path[k].AddScaled(node.Path[k], (2 * (k & 1) - 1) * dt * 0.1);
         }
         node.Position.AddScaled(node.Position, -dt);
     },
     Tilt: function () {
-        var node = this;
+        const node = this;
         node.Angle -= TAU / 8;
         node.Push();
     },
     Push: function () {
-        var node = this;
+        const node = this;
         node.Path.push(node.Position.Clone());
         if (node.Path.length > 20) {
             node.Path.shift();
         }
     },
     StrokePath: function (context, overline) {
-        var node = this;
+        const node = this;
         if (!overline) {
             context.beginPath();
             for (var k = 0; k < node.Path.length; k++) {
@@ -228,10 +228,10 @@ Node.prototype = {
 
             context.stroke();
         } else {
-            var pp = node.Path[0];
+            let pp = node.Path[0];
             for (var k = 1; k < node.Path.length; k++) {
                 var p = node.Path[k];
-                var alpha = k / node.Path.length;
+                const alpha = k / node.Path.length;
                 context.strokeStyle = "hsla(" + node.Hue + ", 90%, 70%, " + alpha + ")";
                 context.beginPath();
                 context.moveTo(pp.X, pp.Y);
@@ -249,7 +249,7 @@ Node.prototype = {
     }
 };
 
-var Nodes = [];
+const Nodes = [];
 for (var i = 0; i < N; i++) {
     Nodes.push(new Node());
 }
@@ -257,7 +257,7 @@ for (var i = 0; i < N; i++) {
 function Tick(dt) {
     Time += dt;
 
-    var gradient = context.createRadialGradient(
+    const gradient = context.createRadialGradient(
         Size.X / 2, Size.Y / 2,
         Math.min(Size.X / 2, Size.Y / 2) / 3,
 
@@ -272,7 +272,7 @@ function Tick(dt) {
 
 
     context.save();
-    context.globalCompositionOperator = "lighten";
+    context.globalCompositeOperation = "lighten";
 
     context.translate(Size.X / 2, Size.Y / 2);
     context.scale(Scale, Scale);
@@ -332,7 +332,7 @@ function Tick(dt) {
 
     context.restore();
 
-    context.globalCompositionOperator = "source-over";
+    context.globalCompositeOperation = "source-over";
 
     Text("Ludum Dare 39", 80, Size.X / 2, Size.Y * 5 / 10);
 
@@ -347,7 +347,7 @@ function Tick(dt) {
 }
 
 setInterval(function () {
-    var s = Math.sin(Time * 8);
-    var c = Math.cos(Time * 7.3);
+    const s = Math.sin(Time * 8);
+    const c = Math.cos(Time * 7.3);
     Tick((s + c) * 0.008 + 0.04);
 }, 33);

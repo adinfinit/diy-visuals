@@ -35,11 +35,11 @@ class Bird {
     }
 
     draw(context) {
-        var x0 = (this.x) * screenWidth;
-        var y0 = (this.y + sin(this.time * 0.1) * 0.5) * screenHeight;
-        var time = this.time;
+        const x0 = (this.x) * screenWidth;
+        const y0 = (this.y + sin(this.time * 0.1) * 0.5) * screenHeight;
+        const time = this.time;
 
-        var size = screenWidth * 0.1 * this.size / 10;
+        const size = screenWidth * 0.1 * this.size / 10;
 
         context.strokeStyle = hsla(time, 70, 30, 0.9);
 
@@ -60,9 +60,9 @@ class Bird {
     }
 }
 
-var birds = [];
+const birds = [];
 const N = 10;
-for (var i = 1; i < N; i++) {
+for (let i = 1; i < N; i++) {
     birds.push(new Bird(i / N, 0.5, i));
 }
 
@@ -77,11 +77,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

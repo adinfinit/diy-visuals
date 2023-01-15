@@ -111,10 +111,10 @@ class Ball {
     }
 }
 
-var balls = [];
+const balls = [];
 for (var i = 0; i < 20; i++) {
-    var x = randomRange(0, screen.x);
-    var y = randomRange(0, screen.x);
+    const x = randomRange(0, screen.x);
+    const y = randomRange(0, screen.x);
     balls.push(new Ball(V(x, y)));
 }
 
@@ -129,28 +129,28 @@ function update(deltaTime) {
         // particle.addForce(V(0, 500));
     });
 
-    for (var i = 0; i < balls.length; i++) {
-        for (var k = i + 1; k < balls.length; k++) {
-            var a = balls[i];
-            var b = balls[k];
+    for (let i = 0; i < balls.length; i++) {
+        for (let k = i + 1; k < balls.length; k++) {
+            const a = balls[i];
+            const b = balls[k];
 
-            var delta = a.pos.sub(b.pos);
+            const delta = a.pos.sub(b.pos);
             if (delta.length >= a.radius + b.radius)
                 continue;
 
-            var penetration = delta.unit.mul(a.radius + b.radius - delta.length);
+            const penetration = delta.unit.mul(a.radius + b.radius - delta.length);
 
-            var ra = a.mass / (a.mass + b.mass);
-            var rb = b.mass / (a.mass + b.mass);
+            const ra = a.mass / (a.mass + b.mass);
+            const rb = b.mass / (a.mass + b.mass);
 
             a.pos = a.pos.add(penetration.mul(rb));
             b.pos = b.pos.sub(penetration.mul(ra));
 
-            var unit = delta.unit;
-            var p = 2 * (a.vel.dot(unit) - b.vel.dot(unit)) / (a.mass + b.mass);
+            const unit = delta.unit;
+            const p = 2 * (a.vel.dot(unit) - b.vel.dot(unit)) / (a.mass + b.mass);
 
-            var avel = a.vel.sub(unit.mul(p * a.mass));
-            var bvel = b.vel.add(unit.mul(p * b.mass));
+            const avel = a.vel.sub(unit.mul(p * a.mass));
+            const bvel = b.vel.add(unit.mul(p * b.mass));
 
             a.vel = avel;
             b.vel = bvel;
@@ -168,11 +168,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

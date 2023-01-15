@@ -39,22 +39,22 @@ class Follower {
     }
 
     render(context) {
-        var h = this.index * PHI * 360 / TAU;
+        const h = this.index * PHI * 360 / TAU;
         context.fillStyle = hsla(h, 40, 40, 0.5);
         context.fillCircle(this.position.x, this.position.y, 10);
         return;
 
-        var offset = V.fromAngle(this.time + this.index);
-        var p = this.position.add(offset.mul(10));
+        const offset = V.fromAngle(this.time + this.index);
+        const p = this.position.add(offset.mul(10));
         context.fillCircle(p.x, p.y, 10);
     }
 }
 
-var followers = [];
+const followers = [];
 var target = {
     position: mouse
 };
-for (var i = 0; i < 10; i++) {
+for (let i = 0; i < 10; i++) {
     var follower = new Follower(target, i);
     target = follower;
     followers.push(follower);
@@ -64,11 +64,11 @@ function update(deltaTime) {
     context.clearRect(0, 0, screen.x, screen.y);
     context.save();
 
-    var log = new Log(context, 10, 10, 14, "#000");
-    var p0 = V(100, 200);
-    var p1 = mouse;
-    var t = now() % 1;
-    var p = V.lerp(p0, p1, now() % 1);
+    const log = new Log(context, 10, 10, 14, "#000");
+    const p0 = V(100, 200);
+    const p1 = mouse;
+    const t = now() % 1;
+    const p = V.lerp(p0, p1, now() % 1);
     log.line("t", t.toFixed(2));
 
     context.fillStyle = rgb(60, 60, 60);
@@ -90,11 +90,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

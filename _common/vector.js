@@ -13,8 +13,8 @@ class Vector {
     }
 
     static random(s) {
-        var x = Math.random() * 2 * s - s;
-        var y = Math.random() * 2 * s - s;
+        const x = Math.random() * 2 * s - s;
+        const y = Math.random() * 2 * s - s;
         return V(x, y).clampLength(s);
     }
 
@@ -25,7 +25,7 @@ class Vector {
     }
 
     map(min, max, toMin, toMax) {
-        var p = this.sub(min).div(max.sub(min));
+        const p = this.sub(min).div(max.sub(min));
         return toMax.sub(toMin).mul(p).add(toMin);
     }
 
@@ -58,7 +58,7 @@ class Vector {
     }
 
     clampLength(targetLength) {
-        var len = this.length;
+        const len = this.length;
         if (len > targetLength) {
             return this.div(len);
         }

@@ -56,7 +56,7 @@ class Particle {
     }
 }
 
-var particles = [];
+let particles = [];
 
 function update(deltaTime) {
     context.fillStyle = "rgba(0,0,0,0.3)";
@@ -67,15 +67,15 @@ function update(deltaTime) {
 
     context.globalCompositeOperation = "lighten";
     while (particles.length < 300) {
-        var speed = V(randomRange(-20, 20), randomRange(0, -50));
+        const speed = V(randomRange(-20, 20), randomRange(0, -50));
         var particle = new Particle(
             V(0, 0),
             speed);
         particles.push(particle);
     }
 
-    var wind = sin(now()) * 10;
-    var gravity = V(wind, 20);
+    const wind = sin(now()) * 10;
+    const gravity = V(wind, 20);
     particles.forEach(particle => {
         particle.resetForce();
         particle.addForce(gravity);
@@ -95,11 +95,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

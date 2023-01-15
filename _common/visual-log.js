@@ -22,8 +22,8 @@ class Log {
         this.context.font = this.fontSize + "px monospace";
         this.context.fillStyle = this.fontColor;
 
-        var line = "";
-        for (var i = 0; i < arguments.length; i++) {
+        let line = "";
+        for (let i = 0; i < arguments.length; i++) {
             if (line[line.length - 1] != " ") {
                 line += " ";
             }

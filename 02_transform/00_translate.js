@@ -45,7 +45,7 @@ function update(deltaTime) {
 
     // draw some content
     context.strokeStyle = "#0f0";
-    var time = now();
+    const time = now();
     context.beginPath();
     context.moveTo(0, 0);
     context.lineTo(cos(time) * 100, sin(time) * 100);
@@ -55,11 +55,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

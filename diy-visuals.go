@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"html/template"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -49,9 +48,10 @@ func main() {
 	}
 
 	watchServer = watchjs.NewServer(watchjs.Config{
-		Monitor: []string{filepath.Join(*dir, "**")},
-		Ignore:  watchjs.DefaultIgnore,
-		Care:    []string{"*.html", "*.css", "*.js", "*.ts"},
+		Interval: *interval,
+		Monitor:  []string{filepath.Join(*dir, "**")},
+		Ignore:   watchjs.DefaultIgnore,
+		Care:     []string{"*.html", "*.css", "*.js", "*.ts"},
 		OnChange: func(change watch.Change) (string, watchjs.Action) {
 			// When change is in staticDir, we instruct the browser live (re)inject the file.
 			if url, ok := watchjs.FileToURL(change.Path, *dir, "/"); ok {
@@ -139,25 +139,25 @@ func serveProject(w http.ResponseWriter, r *http.Request) {
 func serveProjects(w http.ResponseWriter, r *http.Request) {
 	root := *dir
 
-	folderinfos, err := ioutil.ReadDir(root)
+	folderInfos, err := os.ReadDir(root)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	folders := []*Folder{}
-	for _, folderinfo := range folderinfos {
-		if !folderinfo.IsDir() ||
-			strings.HasPrefix(folderinfo.Name(), ".") ||
-			strings.HasPrefix(folderinfo.Name(), "_") {
+	var folders []*Folder
+	for _, folderInfo := range folderInfos {
+		if !folderInfo.IsDir() ||
+			strings.HasPrefix(folderInfo.Name(), ".") ||
+			strings.HasPrefix(folderInfo.Name(), "_") {
 			continue
 		}
 		folder := &Folder{}
 		folders = append(folders, folder)
-		folder.Title = folderinfo.Name()
+		folder.Title = folderInfo.Name()
 
-		foldername := filepath.Join(root, folderinfo.Name())
-		fileinfos, err := ioutil.ReadDir(foldername)
+		foldername := filepath.Join(root, folderInfo.Name())
+		fileinfos, err := os.ReadDir(foldername)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -174,7 +174,7 @@ func serveProjects(w http.ResponseWriter, r *http.Request) {
 				if _, err := os.Stat(filepath.Join(foldername, filename, "index.html")); err == nil {
 					folder.Files = append(folder.Files, &File{
 						Title: filename,
-						URL:   path.Join(folderinfo.Name(), filename),
+						URL:   path.Join(folderInfo.Name(), filename),
 					})
 				}
 				continue
@@ -183,7 +183,7 @@ func serveProjects(w http.ResponseWriter, r *http.Request) {
 			if strings.EqualFold(filepath.Ext(filename), ".html") {
 				folder.Files = append(folder.Files, &File{
 					Title: filename,
-					URL:   path.Join(folderinfo.Name(), filename),
+					URL:   path.Join(folderInfo.Name(), filename),
 				})
 				continue
 			}
@@ -191,7 +191,7 @@ func serveProjects(w http.ResponseWriter, r *http.Request) {
 			file := &File{}
 			folder.Files = append(folder.Files, file)
 			file.Title = filename
-			file.URL = path.Join(folderinfo.Name(), filename+"~")
+			file.URL = path.Join(folderInfo.Name(), filename+"~")
 		}
 
 		sort.Slice(folder.Files, func(i, k int) bool {

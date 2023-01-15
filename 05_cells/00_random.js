@@ -50,7 +50,7 @@ class Cell {
     }
 }
 
-var DEAD = new Cell(NaN, NaN);
+const DEAD = new Cell(NaN, NaN);
 
 class Grid {
     constructor(width, height) {
@@ -59,15 +59,15 @@ class Grid {
         this.alive = false;
         this.cells = new Array(width * height);
 
-        for (var y = 0; y < this.height; y++) {
-            for (var x = 0; x < this.width; x++) {
+        for (let y = 0; y < this.height; y++) {
+            for (let x = 0; x < this.width; x++) {
                 this.cells[y * this.width + x] = new Cell(x, y);
             }
         }
     }
 
     assign(other) {
-        for (var i = 0; i < this.cells.length; i++) {
+        for (let i = 0; i < this.cells.length; i++) {
             this.cells[i].set(other.cells[i]);
         }
     }
@@ -88,7 +88,7 @@ class Grid {
         context.save();
 
         context.translate(screen.x / 2, screen.y / 2);
-        var s = min(screen.x, screen.y) / max(this.width, this.height);
+        const s = min(screen.x, screen.y) / max(this.width, this.height);
         context.scale(s, s);
         context.translate(-this.width / 2, -this.height / 2);
 
@@ -104,8 +104,8 @@ class Grid {
     }
 }
 
-var previous = new Grid(25, 25);
-var current = new Grid(25, 25);
+const previous = new Grid(25, 25);
+const current = new Grid(25, 25);
 
 current.randomize();
 
@@ -126,11 +126,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

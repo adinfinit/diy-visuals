@@ -29,7 +29,7 @@ function easeInOutQuad(t) {
 }
 
 function cube2(t) {
-    var s = sin(t * TAU);
+    const s = sin(t * TAU);
     return t + s * s * s * s / 2;
 }
 
@@ -66,12 +66,12 @@ class Flob {
     }
 
     render(context) {
-        var start = V.lerp(V(0, 0), screen, this.start);
-        var target = V.lerp(V(0, 0), screen, this.target);
+        const start = V.lerp(V(0, 0), screen, this.start);
+        const target = V.lerp(V(0, 0), screen, this.target);
 
         if (this.state == MOVING) {
             var t = easeInOutQuad(this.animation);
-            var p = V.lerp(start, target, t);
+            const p = V.lerp(start, target, t);
             this.position = p;
             context.fillStyle = hsla(this.hue, 70, 70, 0.8);
             context.fillCircle(p.x, p.y, 10);
@@ -87,23 +87,23 @@ class Flob {
     }
 
     renderConnections(context) {
-        var maxLength = screen.y * 0.2;
+        const maxLength = screen.y * 0.2;
         flobs.forEach(other => {
             if (other == this)
                 return;
 
             // don't draw the line when we are too far away
-            var delta = this.position.sub(other.position);
+            const delta = this.position.sub(other.position);
             if (delta.length > maxLength)
                 return;
 
-            var strength = 1 - delta.length / maxLength;
+            const strength = 1 - delta.length / maxLength;
 
             context.strokeStyle = hsla(this.hue, 70, 70, strength);
             context.lineWidth = lerp(1, 4, strength);
             context.beginPath();
 
-            var target = other.position;
+            let target = other.position;
             target = V.lerpClamp(this.position, other.position, strength * 4);
 
             context.moveTo(this.position.x, this.position.y);
@@ -123,7 +123,7 @@ class Flob {
 }
 
 var flobs = [];
-for (var i = 0; i < 30; i++) {
+for (let i = 0; i < 30; i++) {
     flobs.push(new Flob());
 }
 
@@ -150,11 +150,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

@@ -51,19 +51,19 @@ function update(deltaTime) {
         context.fillStyle = "#ccc";
         context.strokeStyle = "#888";
         context.beginPath();
-        var cx = 550;
-        var cy = 250;
+        const cx = 550;
+        const cy = 250;
 
         for (var i = 0; i < N; i++) {
             var p = i * TAU / N;
 
-            var r = 150 +
+            const r = 150 +
                 sin(time * 7 + p * 5) * 50 +
                 0 * cos(time * 8 + p * 3) * 30 +
                 0 * cos(time * 16 + p * 16) * 10;
 
-            var rx = cx + cos(p) * r;
-            var ry = cy + sin(p) * r;
+            const rx = cx + cos(p) * r;
+            const ry = cy + sin(p) * r;
             if (i == 0)
                 context.moveTo(rx, ry);
             else
@@ -76,12 +76,12 @@ function update(deltaTime) {
     }
 
     {
-        var top = [];
-        var bottom = [];
+        const top = [];
+        const bottom = [];
         const N = 40;
         var time = now();
         for (var i = 0; i < N; i++) {
-            var t = i / N;
+            const t = i / N;
             var p = 100 * t;
             top.push({
                 x: p + 100,
@@ -109,11 +109,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

@@ -1,14 +1,14 @@
 "use strict";
 
-var canvas = document.getElementById('view'),
+const canvas = document.getElementById('view'),
     /** @type {CanvasRenderingContext2D} */
     context = canvas.getContext("2d");
 
-var TAU = Math.PI * 2;
-var PHI = 1.61803398874989484820;
+const TAU = Math.PI * 2;
+const PHI = 1.61803398874989484820;
 
-var screenWidth = 0;
-var screenHeight = 0;
+let screenWidth = 0;
+let screenHeight = 0;
 window.onresize = function (e) {
     screenWidth = window.innerWidth;
     screenHeight = window.innerHeight;
@@ -18,18 +18,18 @@ window.onresize = function (e) {
 };
 window.onresize();
 
-var BOUNCE = 0;
+let BOUNCE = 0;
 
 (function (tick) {
-    var last = new Date();
-    var time = 0;
+    let last = new Date();
+    let time = 0;
 
     function update() {
         window.requestAnimationFrame(update);
         try {
             context.save();
-            var now = new Date();
-            var dt = (now - last) * 0.001;
+            const now = new Date();
+            let dt = (now - last) * 0.001;
             last = now;
             if (dt > 0.1) {
                 dt = 0.1;
@@ -42,15 +42,15 @@ var BOUNCE = 0;
 
             //var p = Math.sin(time * 8) * 0.5 + 0.5
             //var p = bounce(p, 0, 1, 1) * 3;
-            var NEXTSTROKE = 8 - bounce(BOUNCE, 0, 4, 1);
+            const NEXTSTROKE = 8 - bounce(BOUNCE, 0, 4, 1);
             STROKEWIDTH = lerp(STROKEWIDTH, NEXTSTROKE, 0.5);
 
-            var NEXTSIZE = bounce(BOUNCE, 10, -10, 1);
+            const NEXTSIZE = bounce(BOUNCE, 10, -10, 1);
             SIZEINCREASE = lerp(SIZEINCREASE, NEXTSIZE, 0.5);
 
-            var s = Math.sin(time * 8);
-            var c = Math.cos(time * 7.3);
-            var offset = 1 + (s + c) * 0.008;
+            const s = Math.sin(time * 8);
+            const c = Math.cos(time * 7.3);
+            const offset = 1 + (s + c) * 0.008;
             tick(dt * offset);
         } finally {
             context.restore();
@@ -75,8 +75,8 @@ function bounce(t, start, end, duration) {
     duration = +duration;
 
     t = t / duration
-    var ts = t * t
-    var tc = ts * t
+    const ts = t * t;
+    const tc = ts * t;
     return start + end * (33 * tc * ts + -106 * ts * ts + 126 * tc + -67 * ts + 15 * t)
 }
 
@@ -206,9 +206,9 @@ const State = {
     Dead: 3
 };
 
-var Z = 0;
+let Z = 0;
 
-var temp = new Vector();
+const temp = new Vector();
 
 class Stem {
     constructor(stem) {
@@ -251,7 +251,7 @@ class Stem {
     }
 
     static from(prev) {
-        var stem = new Stem();
+        const stem = new Stem();
         stem.root = prev.max();
         stem.speed = prev.speed;
         stem.width = prev.width;
@@ -274,11 +274,11 @@ class Stem {
             temp.setAngle(this.direction + this.turn, this.length);
             return this.root.add(temp);
         } else {
-            var curvature = 1.0 / this.turn;
-            var arcRadius = this.length * curvature;
+            const curvature = 1.0 / this.turn;
+            const arcRadius = this.length * curvature;
 
             temp.setAngle(this.direction + TAU / 4, arcRadius);
-            var arcCenter = this.root.add(temp);
+            const arcCenter = this.root.add(temp);
             temp.setAngle(this.direction + this.turn + TAU / 4, arcRadius);
             arcCenter.zsub(temp);
 
@@ -294,7 +294,7 @@ class Stem {
                 }
             }
         }
-        var speed = this.speed / this.length;
+        const speed = this.speed / this.length;
 
         this.life += dt * speed;
         if (this.state == State.Growing) {
@@ -320,21 +320,21 @@ class Stem {
 
     updateDraw() {
         if (Math.abs(this.turn) <= EPSILON) {
-            var min = this.root;
+            const min = this.root;
             temp.setAngle(this.direction, this.length);
-            var max = this.root.add(temp);
+            const max = this.root.add(temp);
 
             this.tail = Vector.lerp(min, max, this.start);
             this.head = Vector.lerp(min, max, this.end);
             return;
         }
 
-        var curvature = 1.0 / this.turn;
+        const curvature = 1.0 / this.turn;
         this.arc.radius = this.length * curvature;
         temp.setAngle(this.direction + TAU / 4, this.arc.radius);
         this.arc.center = this.root.add(temp);
 
-        var minAngle, maxAngle, counterClock;
+        let minAngle, maxAngle, counterClock;
         if (this.turn >= 0.0) {
             minAngle = this.direction - TAU / 4;
             maxAngle = minAngle + this.turn;
@@ -437,7 +437,7 @@ class Node {
     }
 
     draw(context) {
-        var p = bounce(this.life, 0, 1, 1);
+        const p = bounce(this.life, 0, 1, 1);
 
         context.fillStyle = this.stroke;
         context.beginPath();
@@ -446,7 +446,7 @@ class Node {
 
         context.fillStyle = this.fill;
         context.beginPath();
-        var r = p * this.radius - STROKEWIDTH;
+        let r = p * this.radius - STROKEWIDTH;
         if (r < 0) {
             r = 0;
         }
@@ -457,7 +457,7 @@ class Node {
 
 class Tree {
     constructor() {
-        var stem = new Stem();
+        const stem = new Stem();
         stem.speed = 200;
         stem.stroke = "#333";
         stem.fill = "#fff";
@@ -480,7 +480,7 @@ class Tree {
     }
 
     update(dt) {
-        var last = this.last();
+        const last = this.last();
 
         this.spawnCountdown -= dt;
         if (this.spawnCountdown < 0) {
@@ -490,7 +490,7 @@ class Tree {
                 branch.stem = last;
                 // branch.stroke = "hsla(0, 0%, 30%, 0.3)";
                 // branch.fill = "hsla(0, 0%, 30%, 0.3)";
-                var color = "hsla(0, 0%, 20%, 0.5)";
+                const color = "hsla(0, 0%, 20%, 0.5)";
                 // var color = "#666";
                 branch.stroke = color;
                 branch.fill = null;
@@ -540,7 +540,7 @@ class Tree {
     }
 }
 
-var tree = new Tree();
+const tree = new Tree();
 
 function debug(p, size, color) {
     context.fillStyle = color || "#f00";
@@ -554,27 +554,27 @@ function debugDir(p, angle, len, size, color) {
     context.lineWidth = size;
     context.beginPath();
     context.moveTo(p.x, p.y);
-    var t = p.add(Vector.fromAngle(angle, len));
+    const t = p.add(Vector.fromAngle(angle, len));
     context.lineTo(t.x, t.y);
     context.stroke();
 }
 
-var camera = Vector.Zero;
-var hue = 0;
+let camera = Vector.Zero;
+let hue = 0;
 
 function Tick(dt) {
     context.save();
     {
         hue += dt * 10;
-        var sat = 50 + Math.sin(hue) * 10;
-        var lit = 95;
+        const sat = 50 + Math.sin(hue) * 10;
+        const lit = 95;
 
         context.fillStyle = "hsl(" + (hue | 0) + ", " + sat + "%, " + lit + "%)";
         context.fillRect(0, 0, screenWidth, screenHeight);
 
         context.translate(screenWidth / 2, screenHeight / 2);
 
-        var last = tree.last();
+        const last = tree.last();
         if (last) {
             camera = Vector.lerp(camera, last.head.neg(), 0.05);
         }
@@ -586,7 +586,7 @@ function Tick(dt) {
     context.restore();
 
     function textWithShadow(text, x, y, size, align) {
-        var fontSize = (screenHeight * size) | 0;
+        const fontSize = (screenHeight * size) | 0;
         context.font = fontSize + "px " + " Georgia";
         var size = context.measureText(text);
 
@@ -613,26 +613,26 @@ function Tick(dt) {
             return x < 0 ? x : x < 10 ? "0" + x : x;
         }
 
-        var now = new Date();
-        var target = new Date(2017, 11, 4, targethours);
-        var totalSeconds = (target - now) / 1000;
+        const now = new Date();
+        const target = new Date(2017, 11, 4, targethours);
+        const totalSeconds = (target - now) / 1000;
         if (totalSeconds < 0) {
             return "";
         }
 
-        var hours = (totalSeconds / (60 * 60)) | 0;
-        var minutes = ((totalSeconds / 60) - hours * 60) | 0;
-        var seconds = (totalSeconds - minutes * 60 - hours * 60 * 60) | 0;
+        const hours = (totalSeconds / (60 * 60)) | 0;
+        const minutes = ((totalSeconds / 60) - hours * 60) | 0;
+        const seconds = (totalSeconds - minutes * 60 - hours * 60 * 60) | 0;
 
         return hours + ":" + pad(minutes) + ":" + pad(seconds);
     }
 
     {
-        var base = screenHeight * 0.02;
-        var step = screenHeight * 0.05;
-        var block = screenHeight * 0.1;
+        let base = screenHeight * 0.02;
+        const step = screenHeight * 0.05;
+        const block = screenHeight * 0.1;
         var x = screenWidth / 2 - screenWidth * 0.04;
-        var x2 = screenWidth / 2 + screenWidth * 0.04;
+        const x2 = screenWidth / 2 + screenWidth * 0.04;
 
         textWithShadow("Competition Deadline", x, base += block, 0.05, "right");
         textWithShadow("17:00", x, base += step, 0.05, "right");

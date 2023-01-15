@@ -23,10 +23,10 @@ onresize();
 function update(deltaTime) {
     context.clearRect(0, 0, screenWidth, screenHeight);
 
-    var time = now() * 5;
+    const time = now() * 5;
 
-    var x0 = screenWidth / 2;
-    var y0 = screenHeight / 2;
+    const x0 = screenWidth / 2;
+    const y0 = screenHeight / 2;
 
     context.lineWidth = 10;
     context.beginPath();
@@ -46,11 +46,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

@@ -1,12 +1,12 @@
 "use strict";
 
-var canvas = document.getElementById('view'),
+const canvas = document.getElementById('view'),
     /** @type {CanvasRenderingContext2D} */
     context = canvas.getContext("2d");
 
-var TAU = Math.PI * 2;
+const TAU = Math.PI * 2;
 
-var view = {
+const view = {
     size: {
         x: 0,
         y: 0
@@ -24,22 +24,22 @@ window.onresize();
 
 
 function poly(N, s) {
-    var points = [];
-    for (var i = 0; i < N; i += 1) {
+    const points = [];
+    for (let i = 0; i < N; i += 1) {
         points.push({
             x: s * Math.cos(TAU * i / N),
             y: s * Math.sin(TAU * i / N)
         });
     }
     return points;
-};
+}
 
 function drawpoly(context, poly, id, coord) {
     context.beginPath();
-    for (var i = 1; i < poly.length; i++) {
-        var p = poly[i];
-        var x = p.x * (Math.cos(coord.x + id * 0.9) + Math.sin(i * id / 3) + 2) / 2;
-        var y = p.y * (Math.cos(coord.y + id * 1.1) + Math.sin(i * id / 3) + 2) / 2;
+    for (let i = 1; i < poly.length; i++) {
+        const p = poly[i];
+        const x = p.x * (Math.cos(coord.x + id * 0.9) + Math.sin(i * id / 3) + 2) / 2;
+        const y = p.y * (Math.cos(coord.y + id * 1.1) + Math.sin(i * id / 3) + 2) / 2;
         if (i == 0) {
             context.moveTo(x, y);
         } else {
@@ -49,10 +49,10 @@ function drawpoly(context, poly, id, coord) {
     context.closePath();
 }
 
-var polysize = 30;
-var octagon = poly(32, 30);
+const polysize = 30;
+const octagon = poly(32, 30);
 
-var time = 0;
+let time = 0;
 
 function tick(dt) {
     time += dt;
@@ -64,11 +64,11 @@ function tick(dt) {
     context.strokeStyle = "#ccc";
     context.lineWidth = 8;
 
-    var p = {
+    const p = {
         x: 0,
         y: 0
     };
-    var coord = {
+    const coord = {
         x: 0,
         y: 0
     };
@@ -76,7 +76,7 @@ function tick(dt) {
         p.x = 0;
         coord.x = 0;
         while (p.x <= view.size.x + polysize) {
-            var id = coord.x * Math.sqrt(coord.y) + time;
+            const id = coord.x * Math.sqrt(coord.y) + time;
 
             context.fillStyle = "hsla(" + (id * 15) + ",40%, " + (70 + (Math.sin(id * 5) * 10 | 0)) + "%, 1)";
             context.strokeStyle = "hsla(" + (id * 15) + ",40%, " + (70 + (Math.sin(id * 5) * 10 | 0)) + "%, 1)";
@@ -101,11 +101,11 @@ function tick(dt) {
     context.lineWidth = 1;
     context.fillStyle = "#000";
 
-    var y = 230;
+    let y = 230;
 
     function line(size, text, x, dy) {
         context.font = "Bold " + size + "px monospace";
-        var w = context.measureText(text).width;
+        const w = context.measureText(text).width;
         x -= w / 2;
         context.fillText(text, x, y + Math.sin(time * dy) * 20);
         context.strokeText(text, x, y + Math.sin(time * dy) * 20);

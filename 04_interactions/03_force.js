@@ -46,10 +46,10 @@ class Particle {
         particles.forEach(particle => {
             if (this == particle) return;
 
-            var delta = particle.pos.sub(this.pos);
-            var length = delta.length;
+            const delta = particle.pos.sub(this.pos);
+            const length = delta.length;
             if (length < screen.y * 0.1) {
-                var force = delta.mul(1 / (length + 1));
+                const force = delta.mul(1 / (length + 1));
                 this.addForce(force.mul(0.2));
             }
         });
@@ -75,8 +75,8 @@ function update(deltaTime) {
 
     context.globalCompositeOperation = "lighten";
     while (particles.length < 300) {
-        var speed = V.random(50);
-        var zero = V(0, 0);
+        const speed = V.random(50);
+        const zero = V(0, 0);
         //var zero = V.random(20);
         var particle = new Particle(zero, speed);
         particles.push(particle);
@@ -97,11 +97,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

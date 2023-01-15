@@ -20,8 +20,8 @@ window.addEventListener("resize", onresize);
 // update the variables
 onresize();
 
-var mouseX = 0;
-var mouseY = 0;
+let mouseX = 0;
+let mouseY = 0;
 
 window.onmousemove = function (e) {
     mouseX = map(e.pageX, 0, screenWidth, -1, 1);
@@ -36,9 +36,9 @@ function tree(level, time) {
 
     context.save();
     {
-        var height = screenHeight * 0.2;
+        const height = screenHeight * 0.2;
 
-        var levelScale = 1 + level / 10;
+        const levelScale = 1 + level / 10;
         context.fillStyle = hsla(levelScale * time * 120, 70, 70, 0.5);
         context.fillRect(-5, 0, 10, height);
 
@@ -51,7 +51,7 @@ function tree(level, time) {
         context.rotate(mouseY);
         tree(level, time);
     }
-    ;
+
     context.restore();
 }
 
@@ -71,13 +71,13 @@ function update(deltaTime) {
     context.scale(1, -1);
     context.globalCompositeOperation = "lighten";
 
-    var log = new Log(context, 10, 10, 14, "#fff");
+    const log = new Log(context, 10, 10, 14, "#fff");
     log.line("mouse: ", mouseX.toFixed(2), ", ", mouseY.toFixed(2));
 
-    var time = now();
+    const time = now();
 
-    var step = TAU / 16;
-    for (var k = 0; k < TAU; k += step) {
+    const step = TAU / 16;
+    for (let k = 0; k < TAU; k += step) {
         context.rotate(step);
         render(time);
     }
@@ -86,11 +86,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

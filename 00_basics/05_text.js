@@ -31,7 +31,7 @@ context.lineWidth = 2;
 context.strokeText("Hello", 100, 200);
 
 // convenience class
-var log = new Log(context, 10, 10, 14);
+const log = new Log(context, 10, 10, 14);
 log.reset();
 log.line("Alpha");
 log.line("Beta");

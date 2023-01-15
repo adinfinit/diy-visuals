@@ -29,7 +29,7 @@ function easeInOutQuad(t) {
 }
 
 function cube2(t) {
-    var s = sin(t * TAU);
+    const s = sin(t * TAU);
     return t + s * s * s * s / 2;
 }
 
@@ -65,12 +65,12 @@ class Flob {
     }
 
     render(context) {
-        var start = V.lerp(V(0, 0), screen, this.start);
-        var target = V.lerp(V(0, 0), screen, this.target);
+        const start = V.lerp(V(0, 0), screen, this.start);
+        const target = V.lerp(V(0, 0), screen, this.target);
 
         if (this.state == MOVING) {
             var t = easeInOutQuad(this.animation);
-            var p = V.lerp(start, target, t);
+            const p = V.lerp(start, target, t);
             context.fillStyle = hsla(this.hue, 70, 30, 0.8);
             context.fillCircle(p.x, p.y, 10);
         } else {
@@ -84,8 +84,8 @@ class Flob {
     }
 }
 
-var flobs = [];
-for (var i = 0; i < 1; i++) {
+const flobs = [];
+for (let i = 0; i < 1; i++) {
     flobs.push(new Flob());
 }
 
@@ -102,11 +102,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

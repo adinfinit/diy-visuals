@@ -1,8 +1,8 @@
-var PHI = 1.618033988749894848204586834;
-var TAU = 2 * Math.PI;
+const PHI = 1.618033988749894848204586834;
+const TAU = 2 * Math.PI;
 
 (function (global) {
-    var start = 0;
+    let start = 0;
     global.now = function now() {
         return (+new Date()) * 0.001 - start;
     }
@@ -16,7 +16,7 @@ function clamp(v, min, max) {
 }
 
 function map(v, min, max, toMin, toMax) {
-    var p = (v - min) / (max - min);
+    const p = (v - min) / (max - min);
     return p * (toMax - toMin) + toMin;
 }
 
@@ -45,7 +45,7 @@ function randomRange(min, max) {
 }
 
 function randomRangeSnap(min, max, snap) {
-    var range = max - min;
+    const range = max - min;
     Math.floor(Math.random() * range / snap);
     return range * snap + min;
 }
@@ -81,7 +81,7 @@ function rgba(r, g, b, a) {
 }
 
 (function (global) {
-    var expose = [
+    const expose = [
         "E", "LN2", "LN10", "LOG2E", "LOG10E", "PI", "SQRT1_2", "SQRT2",
         "abs", "acos", "acosh", "asin", "asinh", "atan", "atan2", "atanh",
         "cbrt", "ceil", "clz32", "cos", "cosh", "exp", "expm1",
@@ -89,8 +89,8 @@ function rgba(r, g, b, a) {
         "max", "min", "pow", "random", "round", "sign", "sin", "sinh", "sqrt", "tan", "tanh", "trunc"
     ];
 
-    for (var i = 0; i < expose.length; i++) {
-        var name = expose[i];
+    for (let i = 0; i < expose.length; i++) {
+        const name = expose[i];
         global[name] = Math[name];
     }
 })(window || global || {});

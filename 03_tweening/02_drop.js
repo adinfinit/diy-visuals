@@ -42,13 +42,13 @@ class Button {
     }
 
     render(context) {
-        var t = clamp1(this.time);
+        const t = clamp1(this.time);
 
-        var y = easeInOutQuad(t) * screen.y * 0.5;
+        const y = easeInOutQuad(t) * screen.y * 0.5;
         context.translate(screen.x / 2, y);
-        var s = map(sin(this.time * 1.4), -1, 1, 1, 1.3);
-        var sx = s + sin(this.time * 1.1) * 0.2;
-        var sy = s + sin(this.time * 1.2) * 0.2;
+        const s = map(sin(this.time * 1.4), -1, 1, 1, 1.3);
+        const sx = s + sin(this.time * 1.1) * 0.2;
+        const sy = s + sin(this.time * 1.2) * 0.2;
         context.scale(sx, sy);
         context.rotate(sin(this.time * 2.3) * 0.1 + cos(this.time * 1.7) * 0.2)
 
@@ -59,7 +59,7 @@ class Button {
 
         context.fillStyle = "#000";
         context.font = "50px monospace";
-        var m = context.measureText(this.name);
+        const m = context.measureText(this.name);
         context.strokeStyle = "#fff";
         context.lineWidth = 3;
         context.strokeText(this.name, -m.width / 2, 15);
@@ -67,7 +67,7 @@ class Button {
     }
 }
 
-var button = new Button("Hello");
+const button = new Button("Hello");
 
 function update(deltaTime) {
     context.clearRect(0, 0, screen.x, screen.y);
@@ -80,11 +80,11 @@ function update(deltaTime) {
 }
 
 // setup timing loop
-var lastTime = 0;
+let lastTime = 0;
 
 function tick() {
     requestAnimationFrame(tick);
-    var currentTime = now();
+    const currentTime = now();
     update(currentTime - lastTime);
     lastTime = currentTime;
 }

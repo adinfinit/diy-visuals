@@ -10,19 +10,19 @@ CanvasRenderingContext2D.prototype["fillSquare"] = function (x0, y0, r) {
 
 
 CanvasRenderingContext2D.prototype["arrow"] = function (x0, y0, x1, y1) {
-    var hw = (parseInt(this.lineWidth) || 3) / 2;
-    var dx = x1 - x0;
-    var dy = y1 - y0;
-    var d = Math.sqrt(dx * dx + dy * dy);
+    const hw = (parseInt(this.lineWidth) || 3) / 2;
+    const dx = x1 - x0;
+    const dy = y1 - y0;
+    const d = Math.sqrt(dx * dx + dy * dy);
 
-    var headLen = Math.min(hw * 3 / d, 0.5);
-    var headWidth = 2.0;
-    var tailLen = 1.0 - headLen;
+    const headLen = Math.min(hw * 3 / d, 0.5);
+    const headWidth = 2.0;
+    const tailLen = 1.0 - headLen;
 
-    var nx = dx * hw / d;
-    var ny = dy * hw / d;
-    var nrx = -ny;
-    var nry = nx;
+    const nx = dx * hw / d;
+    const ny = dy * hw / d;
+    const nrx = -ny;
+    const nry = nx;
 
     this.beginPath();
     this.moveTo(x0, y0);
