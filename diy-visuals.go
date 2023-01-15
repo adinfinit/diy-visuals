@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"html/template"
@@ -17,6 +18,8 @@ import (
 	"github.com/loov/watchrun/watch"
 	"github.com/loov/watchrun/watchjs"
 	"github.com/pkg/browser"
+
+	esbuild "github.com/evanw/esbuild/pkg/api"
 )
 
 var (
@@ -48,7 +51,7 @@ func main() {
 	watchServer = watchjs.NewServer(watchjs.Config{
 		Monitor: []string{filepath.Join(*dir, "**")},
 		Ignore:  watchjs.DefaultIgnore,
-		Care:    []string{"*.html", "*.css", "*.js"},
+		Care:    []string{"*.html", "*.css", "*.js", "*.ts"},
 		OnChange: func(change watch.Change) (string, watchjs.Action) {
 			// When change is in staticDir, we instruct the browser live (re)inject the file.
 			if url, ok := watchjs.FileToURL(change.Path, *dir, "/"); ok {
@@ -88,6 +91,32 @@ func serve(w http.ResponseWriter, r *http.Request) {
 }
 
 func serveFile(w http.ResponseWriter, r *http.Request) {
+	if path.Ext(r.URL.Path) == ".ts" {
+		path := filepath.FromSlash(path.Join(*dir, r.URL.Path))
+		data, err := os.ReadFile(path)
+		if err != nil {
+			http.Error(w, "File not found", http.StatusNotFound)
+			return
+		}
+
+		result := esbuild.Transform(string(data), esbuild.TransformOptions{
+			Loader: esbuild.LoaderTS,
+			Target: esbuild.ES2018,
+		})
+
+		var buf bytes.Buffer
+		for _, v := range result.Errors {
+			fmt.Fprintln(&buf, v.Text)
+		}
+		if buf.Len() > 0 {
+			http.Error(w, buf.String(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "text/javascript; charset=utf-8")
+		http.ServeContent(w, r, r.URL.Path, time.Now(), bytes.NewReader(result.Code))
+		return
+	}
 	path := filepath.FromSlash(path.Join(*dir, r.URL.Path))
 	http.ServeFile(w, r, path)
 }
