@@ -27,7 +27,7 @@ window.addEventListener("mousemove", function (e) {
 
 class Particle {
     constructor(start, speed) {
-        this.hue = random() * 360;
+        this.hue = Math.random() * 360;
         this.pos = start;
         this.speed = speed;
         this.force = V(0, 0);
@@ -68,13 +68,13 @@ function update(deltaTime) {
     context.globalCompositeOperation = "lighten";
     while (particles.length < 300) {
         const speed = V(randomRange(-20, 20), randomRange(0, -50));
-        var particle = new Particle(
+        let particle = new Particle(
             V(0, 0),
             speed);
         particles.push(particle);
     }
 
-    const wind = sin(now()) * 10;
+    const wind = Math.sin(now()) * 10;
     const gravity = V(wind, 20);
     particles.forEach(particle => {
         particle.resetForce();

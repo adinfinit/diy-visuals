@@ -36,7 +36,7 @@ class Bird {
 
     draw(context) {
         const x0 = (this.x) * screenWidth;
-        const y0 = (this.y + sin(this.time * 0.1) * 0.5) * screenHeight;
+        const y0 = (this.y + Math.sin(this.time * 0.1) * 0.5) * screenHeight;
         const time = this.time;
 
         const size = screenWidth * 0.1 * this.size / 10;
@@ -46,16 +46,16 @@ class Bird {
         context.lineWidth = 10;
         context.beginPath();
         context.moveTo(x0, y0);
-        context.lineTo(x0 - size, y0 + sin(time) * size * 0.75);
-        context.lineTo(x0 - size * 2, y0 + sin(time - 1) * size * 0.75);
-        context.lineTo(x0 - size * 2.5, y0 + sin(time - 2) * size);
+        context.lineTo(x0 - size, y0 + Math.sin(time) * size * 0.75);
+        context.lineTo(x0 - size * 2, y0 + Math.sin(time - 1) * size * 0.75);
+        context.lineTo(x0 - size * 2.5, y0 + Math.sin(time - 2) * size);
         context.stroke();
 
         context.beginPath();
         context.moveTo(x0, y0);
-        context.lineTo(x0 + size, y0 + sin(time) * size * 0.75);
-        context.lineTo(x0 + size * 2, y0 + sin(time - 1) * size * 0.75);
-        context.lineTo(x0 + size * 2.5, y0 + sin(time - 2) * size);
+        context.lineTo(x0 + size, y0 + Math.sin(time) * size * 0.75);
+        context.lineTo(x0 + size * 2, y0 + Math.sin(time - 1) * size * 0.75);
+        context.lineTo(x0 + size * 2.5, y0 + Math.sin(time - 2) * size);
         context.stroke();
     }
 }

@@ -79,18 +79,3 @@ function rgba(r, g, b, a) {
     a = clamp(a, 0, 1);
     return "rgba(" + r + "," + g + ", " + b + ", " + a + ")";
 }
-
-(function (global) {
-    const expose = [
-        "E", "LN2", "LN10", "LOG2E", "LOG10E", "PI", "SQRT1_2", "SQRT2",
-        "abs", "acos", "acosh", "asin", "asinh", "atan", "atan2", "atanh",
-        "cbrt", "ceil", "clz32", "cos", "cosh", "exp", "expm1",
-        "floor", "fround", "hypot", "imul", "log", "log1p", "log2", "log10",
-        "max", "min", "pow", "random", "round", "sign", "sin", "sinh", "sqrt", "tan", "tanh", "trunc"
-    ];
-
-    for (let i = 0; i < expose.length; i++) {
-        const name = expose[i];
-        global[name] = Math[name];
-    }
-})(window || global || {});

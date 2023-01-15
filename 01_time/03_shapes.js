@@ -46,7 +46,7 @@ function update(deltaTime) {
     {
         const N = 250;
 
-        var time = now();
+        let time = now();
         context.lineWidth = 10;
         context.fillStyle = "#ccc";
         context.strokeStyle = "#888";
@@ -54,16 +54,16 @@ function update(deltaTime) {
         const cx = 550;
         const cy = 250;
 
-        for (var i = 0; i < N; i++) {
-            var p = i * TAU / N;
+        for (let i = 0; i < N; i++) {
+            let p = i * TAU / N;
 
             const r = 150 +
-                sin(time * 7 + p * 5) * 50 +
-                0 * cos(time * 8 + p * 3) * 30 +
-                0 * cos(time * 16 + p * 16) * 10;
+                Math.sin(time * 7 + p * 5) * 50 +
+                0 * Math.cos(time * 8 + p * 3) * 30 +
+                0 * Math.cos(time * 16 + p * 16) * 10;
 
-            const rx = cx + cos(p) * r;
-            const ry = cy + sin(p) * r;
+            const rx = cx + Math.cos(p) * r;
+            const ry = cy + Math.sin(p) * r;
             if (i == 0)
                 context.moveTo(rx, ry);
             else
@@ -79,25 +79,25 @@ function update(deltaTime) {
         const top = [];
         const bottom = [];
         const N = 40;
-        var time = now();
-        for (var i = 0; i < N; i++) {
+        let time = now();
+        for (let i = 0; i < N; i++) {
             const t = i / N;
-            var p = 100 * t;
+            let p = 100 * t;
             top.push({
                 x: p + 100,
-                y: -10 * sin(t * TAU + time * 3) + 350 - 20
+                y: -10 * Math.sin(t * TAU + time * 3) + 350 - 20
             });
             bottom.push({
                 x: p + 100,
-                y: 10 * sin(t * TAU + time * 2) + 350 + 20
+                y: 10 * Math.sin(t * TAU + time * 2) + 350 + 20
             });
         }
         context.beginPath();
         context.moveTo(top[0].x, top[0].y);
-        for (var i = 1; i < N; i++) {
+        for (let i = 1; i < N; i++) {
             context.lineTo(top[i].x, top[i].y);
         }
-        for (var i = N - 1; i >= 0; i--) {
+        for (let i = N - 1; i >= 0; i--) {
             context.lineTo(bottom[i].x, bottom[i].y);
         }
         context.closePath();

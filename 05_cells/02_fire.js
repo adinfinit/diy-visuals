@@ -39,7 +39,7 @@ class Cell {
     }
 
     randomize() {
-        this.heat = random();
+        this.heat = Math.random();
         this.heat *= this.heat;
         this.heat *= this.heat;
         this.heat *= this.heat;
@@ -101,14 +101,14 @@ class Grid {
     }
 
     addHeat(x, y, amount) {
-        const lowX = round(x);
-        const lowY = round(y);
+        const lowX = Math.round(x);
+        const lowY = Math.round(y);
 
-        const dx = sign(x - lowX);
-        const dy = sign(y - lowY);
+        const dx = Math.sign(x - lowX);
+        const dy = Math.sign(y - lowY);
 
-        const contribLowX = 1 - abs(x - lowX);
-        const contribLowY = 1 - abs(y - lowY);
+        const contribLowX = 1 - Math.abs(x - lowX);
+        const contribLowY = 1 - Math.abs(y - lowY);
 
         this.get(lowX, lowY).add(amount * contribLowX * contribLowY);
         this.get(lowX + dx, lowY).add(amount * (1 - contribLowX) * contribLowY);
@@ -126,7 +126,7 @@ class Grid {
         context.save();
 
         context.translate(screen.x / 2, screen.y / 2);
-        const s = min(screen.x, screen.y) / max(this.width, this.height);
+        const s = Math.min(screen.x, screen.y) / Math.max(this.width, this.height);
         context.scale(s, s);
         context.translate(-this.width / 2, -this.height / 2);
 
@@ -158,7 +158,7 @@ function update(deltaTime) {
     const cx = current.width / 2;
     const cy = current.height - 2;
 
-    const dx = sin(now() * 10) * 2;
+    const dx = Math.sin(now() * 10) * 2;
     current.addHeat(cx + dx, cy, 5);
 
     previous.assign(current);

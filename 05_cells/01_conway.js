@@ -38,7 +38,7 @@ class Cell {
     }
 
     randomize() {
-        this.alive = random() > 0.5;
+        this.alive = Math.random() > 0.5;
     }
 
     update(lastGrid) {
@@ -115,7 +115,7 @@ class Grid {
         context.save();
 
         context.translate(screen.x / 2, screen.y / 2);
-        const s = min(screen.x, screen.y) / max(this.width, this.height);
+        const s = Math.min(screen.x, screen.y) / Math.max(this.width, this.height);
         context.scale(s, s);
         context.translate(-this.width / 2, -this.height / 2);
 

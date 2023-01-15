@@ -48,7 +48,7 @@ function update(deltaTime) {
     const time = now();
     context.beginPath();
     context.moveTo(0, 0);
-    context.lineTo(cos(time) * 100, sin(time) * 100);
+    context.lineTo(Math.cos(time) * 100, Math.sin(time) * 100);
     context.stroke();
 
     context.restore();

@@ -20,20 +20,20 @@ window.addEventListener("resize", onresize);
 // update the variables
 onresize();
 
-for (var x = 0; x < screenWidth; x += 10) {
+for (let x = 0; x < screenWidth; x += 10) {
     context.fillStyle = hsl(x * PHI, 70, 70);
     context.fillRect(x, 100, 10, 50);
 }
 
-for (var x = 0; x < screenWidth; x += 10) {
+for (let x = 0; x < screenWidth; x += 10) {
     context.fillStyle = rgb(x * PHI % 256, 50, 50);
     context.fillRect(x, 200, 10, 50);
 }
 
-for (var x = 0; x < screenWidth; x += 10) {
+for (let x = 0; x < screenWidth; x += 10) {
     context.fillStyle = rgb(
-        sin((x / screenWidth) % 256) * 256,
-        sin((TAU / 3 + 7 * x / screenWidth) % 256) * 256,
-        sin((5 * x / screenWidth) % 256) * 256);
+        Math.sin((x / screenWidth) % 256) * 256,
+        Math.sin((TAU / 3 + 7 * x / screenWidth) % 256) * 256,
+        Math.sin((5 * x / screenWidth) % 256) * 256);
     context.fillRect(x, 300, 10, 50);
 }

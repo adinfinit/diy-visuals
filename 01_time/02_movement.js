@@ -24,8 +24,8 @@ function update(deltaTime) {
     context.fillStyle = hsla(0, 0, 0, 0.05);
     context.fillRect(0, 0, screenWidth, screenHeight);
 
-    const rx = (sin(now() * 2) + 1) * 0.5;
-    const ry = (sin(now() * 3) + 1) * 0.5;
+    const rx = (Math.sin(now() * 2) + 1) * 0.5;
+    const ry = (Math.sin(now() * 3) + 1) * 0.5;
 
     const x = rx * screenWidth * 0.5 + screenWidth * 0.25;
     const y = ry * screenHeight * 0.5 + screenHeight * 0.25;

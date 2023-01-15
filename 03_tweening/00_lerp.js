@@ -51,11 +51,11 @@ class Follower {
 }
 
 const followers = [];
-var target = {
+let target = {
     position: mouse
 };
 for (let i = 0; i < 10; i++) {
-    var follower = new Follower(target, i);
+    let follower = new Follower(target, i);
     target = follower;
     followers.push(follower);
 }

@@ -27,7 +27,7 @@ window.addEventListener("mousemove", function (e) {
 
 class Particle {
     constructor(start, speed) {
-        this.hue = random() * 360;
+        this.hue = Math.random() * 360;
         this.pos = start;
         this.speed = speed;
         this.force = V(0, 0);
@@ -64,7 +64,7 @@ class Particle {
     }
 }
 
-var particles = [];
+let particles = [];
 
 function update(deltaTime) {
     context.fillStyle = "rgba(0,0,0,0.5)";
@@ -78,7 +78,7 @@ function update(deltaTime) {
         const speed = V.random(50);
         const zero = V(0, 0);
         //var zero = V.random(20);
-        var particle = new Particle(zero, speed);
+        let particle = new Particle(zero, speed);
         particles.push(particle);
     }
 

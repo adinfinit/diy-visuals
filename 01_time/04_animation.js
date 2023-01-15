@@ -31,17 +31,17 @@ function update(deltaTime) {
     context.lineWidth = 10;
     context.beginPath();
     context.moveTo(x0, y0);
-    context.lineTo(x0 - 150, y0 + sin(time) * 100);
-    context.lineTo(x0 - 250, y0 + sin(time - 1) * 100);
-    context.lineTo(x0 - 300, y0 + sin(time - 2) * 150);
+    context.lineTo(x0 - 150, y0 + Math.sin(time) * 100);
+    context.lineTo(x0 - 250, y0 + Math.sin(time - 1) * 100);
+    context.lineTo(x0 - 300, y0 + Math.sin(time - 2) * 150);
     context.stroke();
 
     return;
     context.beginPath();
     context.moveTo(x0, y0);
-    context.lineTo(x0 + 150, y0 + sin(time) * 100);
-    context.lineTo(x0 + 250, y0 + sin(time - 1) * 100);
-    context.lineTo(x0 + 300, y0 + sin(time - 2) * 150);
+    context.lineTo(x0 + 150, y0 + Math.sin(time) * 100);
+    context.lineTo(x0 + 250, y0 + Math.sin(time - 1) * 100);
+    context.lineTo(x0 + 300, y0 + Math.sin(time - 2) * 150);
     context.stroke();
 }
 

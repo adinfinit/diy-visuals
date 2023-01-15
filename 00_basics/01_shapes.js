@@ -46,5 +46,5 @@ context.fill();
 // circle
 // arc(x, y, radius, startAngle, endAngle, clockwise)
 context.beginPath();
-context.arc(100, 350, 25, 0, 2 * PI, true);
+context.arc(100, 350, 25, 0, 2 * Math.PI, true);
 context.fill();

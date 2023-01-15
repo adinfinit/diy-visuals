@@ -26,7 +26,7 @@ window.addEventListener("mousemove", function (e) {
 
 class Ball {
     constructor(start) {
-        this.hue = random() * 360;
+        this.hue = Math.random() * 360;
         this.pos = start;
         this.radius = randomRange(10, 30);
         this.mass = (TAU / 2) * this.radius * this.radius;
@@ -47,24 +47,24 @@ class Ball {
 
     update(deltaTime) {
         if (this.pos.x - this.radius < 0) {
-            this.vel.x = abs(this.vel.x);
+            this.vel.x = Math.abs(this.vel.x);
             this.pos.x = this.radius;
-            this.angularSpeed += sign(this.vel.y) * 5;
+            this.angularSpeed += Math.sign(this.vel.y) * 5;
         }
         if (this.pos.x + this.radius > screen.x) {
-            this.vel.x = -abs(this.vel.x);
+            this.vel.x = -Math.abs(this.vel.x);
             this.pos.x = screen.x - this.radius;
-            this.angularSpeed -= sign(this.vel.y) * 5;
+            this.angularSpeed -= Math.sign(this.vel.y) * 5;
         }
         if (this.pos.y - this.radius < 0) {
-            this.vel.y = abs(this.vel.y);
+            this.vel.y = Math.abs(this.vel.y);
             this.pos.y = this.radius;
-            this.angularSpeed -= sign(this.vel.x) * 5;
+            this.angularSpeed -= Math.sign(this.vel.x) * 5;
         }
         if (this.pos.y + this.radius > screen.y) {
-            this.vel.y = -abs(this.vel.y);
+            this.vel.y = -Math.abs(this.vel.y);
             this.pos.y = screen.y - this.radius;
-            this.angularSpeed += sign(this.vel.x) * 5;
+            this.angularSpeed += Math.sign(this.vel.x) * 5;
         }
         this.angularSpeed *= 0.99;
 
@@ -112,7 +112,7 @@ class Ball {
 }
 
 const balls = [];
-for (var i = 0; i < 20; i++) {
+for (let i = 0; i < 20; i++) {
     const x = randomRange(0, screen.x);
     const y = randomRange(0, screen.x);
     balls.push(new Ball(V(x, y)));

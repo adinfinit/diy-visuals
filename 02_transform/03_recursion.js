@@ -39,8 +39,8 @@ function tree(level, time) {
         context.translate(0, height);
         context.scale(0.7, 0.7);
 
-        const rotateLeft = sin(time * 3 + TAU * 0.1);
-        const rotateRight = sin(time * 4 - TAU * 0.1);
+        const rotateLeft = Math.sin(time * 3 + TAU * 0.1);
+        const rotateRight = Math.sin(time * 4 - TAU * 0.1);
 
         context.rotate(rotateLeft);
         tree(level, time);

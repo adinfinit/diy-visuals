@@ -79,11 +79,11 @@ const easingFunctions = {
     },
     // logarithm
     logarithm: function (t) {
-        return log(t + 1) / LN2;
+        return Math.log(t + 1) / Math.LN2;
     },
     // sin
     sin: function (t) {
-        return t + sin(t * TAU) / 2;
+        return t + Math.sin(t * TAU) / 2;
     },
     // sqr
     sqr: function (t) {
@@ -91,18 +91,18 @@ const easingFunctions = {
     },
     // sqrt
     sqrt: function (t) {
-        return sqrt(t);
+        return Math.sqrt(t);
     },
     // wobble
     wobble: function (t) {
         return 0.0005 * (t - 1) * (t - 1) * t * (44851 - 224256 * t + 224256 * t * t)
     },
     cube: function (t) {
-        const s = sin(t * TAU);
+        const s = Math.sin(t * TAU);
         return t + s * s * s / 2;
     },
     cube2: function (t) {
-        const s = sin(t * TAU);
+        const s = Math.sin(t * TAU);
         return t + s * s * s * s / 2;
     }
 };
@@ -142,7 +142,7 @@ class Easer {
         { // draw rotate 360
             context.save();
             context.translate(50, y);
-            var rotation = lerp(0, TAU, easedTime);
+            const rotation = lerp(0, TAU, easedTime);
             context.rotate(rotation)
             context.fillSquare(0, 0, 15);
             context.restore();
@@ -151,7 +151,7 @@ class Easer {
         { // draw rotate 90
             context.save();
             context.translate(100, y);
-            var rotation = lerp(0, TAU / 4, easedTime);
+            const rotation = lerp(0, TAU / 4, easedTime);
             context.rotate(rotation);
             context.fillSquare(0, 0, 15);
             context.restore();
@@ -160,7 +160,7 @@ class Easer {
         { // draw rotate 90 and scale
             context.save();
             context.translate(150, y);
-            var rotation = lerp(0, TAU / 2, easedTime);
+            const rotation = lerp(0, TAU / 2, easedTime);
             context.rotate(rotation);
             const scaling = lerp(1, 1.5, easedTime);
             context.scale(scaling, scaling);
@@ -185,11 +185,11 @@ class Easer {
             context.beginPath();
             const N = 20;
             for (let i = 0; i <= N; i++) {
-                var px = i / N;
-                var py = this.ease(px);
+                let px = i / N;
+                let py = this.ease(px);
 
-                const tx = lerp(r0.x, r1.x, px);
-                const ty = lerp(r1.y, r0.y, py);
+                let tx = lerp(r0.x, r1.x, px);
+                let ty = lerp(r1.y, r0.y, py);
                 if (i == 0)
                     context.moveTo(tx, ty);
                 else
@@ -197,8 +197,8 @@ class Easer {
             }
             context.stroke();
 
-            var px = lerp(r0.x, r1.x, time);
-            var py = lerp(r1.y, r0.y, easedTime);
+            let px = lerp(r0.x, r1.x, time);
+            let py = lerp(r1.y, r0.y, easedTime);
             context.beginPath();
             context.moveTo(px, r0.y);
             context.lineTo(px, r1.y);
@@ -210,11 +210,11 @@ class Easer {
 }
 
 const easers = [];
-for (var name in easingFunctions) {
-    var ease = easingFunctions[name];
+for (let name in easingFunctions) {
+    let ease = easingFunctions[name];
     easers.push(new Easer(name, ease, 0));
 }
-for (var i = 0; i < easers.length; i++) {
+for (let i = 0; i < easers.length; i++) {
     easers[i].p = i / easers.length;
     easers[i].index = i;
 }

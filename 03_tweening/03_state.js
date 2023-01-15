@@ -29,7 +29,7 @@ function easeInOutQuad(t) {
 }
 
 function cube2(t) {
-    const s = sin(t * TAU);
+    const s = Math.sin(t * TAU);
     return t + s * s * s * s / 2;
 }
 
@@ -38,11 +38,11 @@ const EATING = 2;
 
 class Flob {
     constructor() {
-        this.start = V(random(), random());
-        this.target = V(random(), random());
+        this.start = V(Math.random(), Math.random());
+        this.target = V(Math.random(), Math.random());
         this.animation = 0;
         this.duration = randomRange(1, 2);
-        this.hue = random() * 360;
+        this.hue = Math.random() * 360;
 
         this.state = MOVING;
     }
@@ -57,7 +57,7 @@ class Flob {
                 this.duration = randomRange(1, 3);
             } else {
                 this.state = MOVING;
-                this.target = V(random(), random());
+                this.target = V(Math.random(), Math.random());
                 this.animation = 0;
                 this.duration = randomRange(1, 2);
             }
@@ -69,12 +69,12 @@ class Flob {
         const target = V.lerp(V(0, 0), screen, this.target);
 
         if (this.state == MOVING) {
-            var t = easeInOutQuad(this.animation);
+            let t = easeInOutQuad(this.animation);
             const p = V.lerp(start, target, t);
             context.fillStyle = hsla(this.hue, 70, 30, 0.8);
             context.fillCircle(p.x, p.y, 10);
         } else {
-            var t = sin(this.animation * TAU * 4);
+            let t = Math.sin(this.animation * TAU * 4);
             context.fillStyle = hsla(this.hue, 70, 30, 0.8);
             context.fillCircle(start.x, start.y, 15 + t * 5);
         }

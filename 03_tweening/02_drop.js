@@ -46,11 +46,11 @@ class Button {
 
         const y = easeInOutQuad(t) * screen.y * 0.5;
         context.translate(screen.x / 2, y);
-        const s = map(sin(this.time * 1.4), -1, 1, 1, 1.3);
-        const sx = s + sin(this.time * 1.1) * 0.2;
-        const sy = s + sin(this.time * 1.2) * 0.2;
+        const s = map(Math.sin(this.time * 1.4), -1, 1, 1, 1.3);
+        const sx = s + Math.sin(this.time * 1.1) * 0.2;
+        const sy = s + Math.sin(this.time * 1.2) * 0.2;
         context.scale(sx, sy);
-        context.rotate(sin(this.time * 2.3) * 0.1 + cos(this.time * 1.7) * 0.2)
+        context.rotate(Math.sin(this.time * 2.3) * 0.1 + Math.cos(this.time * 1.7) * 0.2)
 
         context.fillStyle = hsla(180, 5, 80, 1);
         context.fillRect(-100, -50, 200, 100);
