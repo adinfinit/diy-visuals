@@ -9,43 +9,45 @@ let screenWidth = 0;
 let screenHeight = 0;
 
 function onresize() {
-	screenWidth = window.innerWidth;
-	screenHeight = window.innerHeight;
+    screenWidth = window.innerWidth;
+    screenHeight = window.innerHeight;
 
-	canvas.width = screenWidth;
-	canvas.height = screenHeight;
+    canvas.width = screenWidth;
+    canvas.height = screenHeight;
 }
+
 window.addEventListener("resize", onresize);
 // update the variables
 onresize();
 
 function update(deltaTime) {
-	context.clearRect(0, 0, screenWidth, screenHeight);
-	context.save();
-	context.translate(screenWidth / 2, screenHeight / 2);
-	context.rotate(-now());
+    context.clearRect(0, 0, screenWidth, screenHeight);
+    context.save();
+    context.translate(screenWidth / 2, screenHeight / 2);
+    context.rotate(-now());
 
-	// gizmo
-	context.gizmo(0, 0, 100);
+    // gizmo
+    context.gizmo(0, 0, 100);
 
-	// draw some content
-	context.strokeStyle = "#0f0";
-	var time = now();
-	context.beginPath();
-	context.moveTo(0, 0);
-	context.lineTo(cos(time) * 100, sin(time) * 100);
-	context.stroke();
+    // draw some content
+    context.strokeStyle = "#0f0";
+    var time = now();
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.lineTo(cos(time) * 100, sin(time) * 100);
+    context.stroke();
 
-	context.restore();
+    context.restore();
 }
 
 // setup timing loop
 var lastTime = 0;
 
 function tick() {
-	requestAnimationFrame(tick);
-	var currentTime = now();
-	update(currentTime - lastTime);
-	lastTime = currentTime;
+    requestAnimationFrame(tick);
+    var currentTime = now();
+    update(currentTime - lastTime);
+    lastTime = currentTime;
 }
+
 tick();

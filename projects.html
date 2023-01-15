@@ -1,89 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<meta name="google" value="notranslate">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="google" value="notranslate">
 
-	<title>Projects</title>
-	<style>
-		.folders {
-			display: flex;
-			flex-flow: row wrap;
-		}
-		.folder {
-			border: 1px solid #ddd;
-			margin: 1em 0.5em;
+    <title>Projects</title>
+    <style>
+        .folders {
+            display: flex;
+            flex-flow: row wrap;
+        }
 
-			float: left;
-			min-height: 12em;
-			width: 10em;
-		}
+        .folder {
+            border: 1px solid #ddd;
+            margin: 1em 0.5em;
 
-		.title {
-			font-weight: bold;
-			background: #eee;
-			padding: 0.5em;
-		}
-		.files {
-			padding: 0.5em;
-		}
-		.file {
-			display: block;
-			padding: 0.2em;
-		}
-		.file:hover {
-			background: #eee;
-		}
-	</style>
-	<script type="text/javascript" src="/~watch.js"></script>
-	<script type="text/javascript">
-		var reloader = new Reloader();
-		reloader.onchanges = function(){
-			window.location.reload();
-		};
-	</script>
+            float: left;
+            min-height: 12em;
+            width: 10em;
+        }
+
+        .title {
+            font-weight: bold;
+            background: #eee;
+            padding: 0.5em;
+        }
+
+        .files {
+            padding: 0.5em;
+        }
+
+        .file {
+            display: block;
+            padding: 0.2em;
+        }
+
+        .file:hover {
+            background: #eee;
+        }
+    </style>
+    <script type="text/javascript" src="/~watch.js"></script>
+    <script type="text/javascript">
+        var reloader = new Reloader();
+        reloader.onchanges = function () {
+            window.location.reload();
+        };
+    </script>
 </head>
 <body class="folders">
-	{{ range .Folders }}
-	<div class="folder">
-		<div class="title">{{.Title}}</div>
-		<div class="files">
-		{{ range .Files }}
-		<a class="file" href="{{.URL}}">{{.Title}}</a>
-		{{ end }}
-		</div>
-	</div>
-	{{ end }}
-	<div style="width: 100%; background: #ccc; height: 2px;"></div>
-	<div class="folder">
-		<div class="title">Tools</div>
-		<div class="files">
-			<a class="file" href="https://www.contextfreeart.org/">Context-Free-Art</a>
-			<a class="file" href="http://structuresynth.sourceforge.net/">Structure Synth</a>
-			<a class="file" href="https://processing.org/">Processing</a>
-			<a class="file" href="https://threejs.org/">Three.js</a>
-			<a class="file" href="http://openframeworks.cc/">OpenFrameworks</a>
-			<a class="file" href="https://libcinder.org/">Cinder</a>
-			<a class="file" href="http://users.monash.edu/~cema/fugu/index.html">Fugu</a>
-			<a class="file" href="http://azarask.in/projects/algorithm-ink/#e03e6859">Algorithm Ink</a>
-		</div>
-	</div>
-	<div class="folder">
-		<div class="title">Keith Peterson</div>
-		<div class="files">
-			<a class="file" href="http://www.bit-101.com/blog/">Blog</a>
-			<a class="file" href="https://bit101.github.io/lab/">Lab</a>
-			<a class="file" href="https://www.youtube.com/user/codingmath/videos">Videos</a>
-		</div>
-	</div>
-	<div class="folder">
-		<div class="title">Demoscene</div>
-		<div class="files">
-			<a class="file" href="http://cookie.paris/">Cookie 2017</a>
-			<a class="file" href="http://js1k.com/">js1k</a>
-			<a class="file" href="http://awards.scene.org/">Scene.org</a>
-		</div>
-	</div>
+{{ range .Folders }}
+<div class="folder">
+    <div class="title">{{.Title}}</div>
+    <div class="files">
+        {{ range .Files }}
+        <a class="file" href="{{.URL}}">{{.Title}}</a>
+        {{ end }}
+    </div>
+</div>
+{{ end }}
+<div style="width: 100%; background: #ccc; height: 2px;"></div>
+<div class="folder">
+    <div class="title">Tools</div>
+    <div class="files">
+        <a class="file" href="https://www.contextfreeart.org/">Context-Free-Art</a>
+        <a class="file" href="http://structuresynth.sourceforge.net/">Structure Synth</a>
+        <a class="file" href="https://processing.org/">Processing</a>
+        <a class="file" href="https://threejs.org/">Three.js</a>
+        <a class="file" href="http://openframeworks.cc/">OpenFrameworks</a>
+        <a class="file" href="https://libcinder.org/">Cinder</a>
+        <a class="file" href="http://users.monash.edu/~cema/fugu/index.html">Fugu</a>
+        <a class="file" href="http://azarask.in/projects/algorithm-ink/#e03e6859">Algorithm Ink</a>
+    </div>
+</div>
+<div class="folder">
+    <div class="title">Keith Peterson</div>
+    <div class="files">
+        <a class="file" href="http://www.bit-101.com/blog/">Blog</a>
+        <a class="file" href="https://bit101.github.io/lab/">Lab</a>
+        <a class="file" href="https://www.youtube.com/user/codingmath/videos">Videos</a>
+    </div>
+</div>
+<div class="folder">
+    <div class="title">Demoscene</div>
+    <div class="files">
+        <a class="file" href="http://cookie.paris/">Cookie 2017</a>
+        <a class="file" href="http://js1k.com/">js1k</a>
+        <a class="file" href="http://awards.scene.org/">Scene.org</a>
+    </div>
+</div>
 </body>
 </html>

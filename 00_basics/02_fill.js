@@ -9,12 +9,13 @@ let screenWidth = 0;
 let screenHeight = 0;
 
 function onresize() {
-	screenWidth = window.innerWidth;
-	screenHeight = window.innerHeight;
+    screenWidth = window.innerWidth;
+    screenHeight = window.innerHeight;
 
-	canvas.width = screenWidth;
-	canvas.height = screenHeight;
+    canvas.width = screenWidth;
+    canvas.height = screenHeight;
 }
+
 window.addEventListener("resize", onresize);
 // update the variables
 onresize();
