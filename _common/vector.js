@@ -98,7 +98,7 @@ class Vector {
     }
 
     get theta() {
-        return Math.atan2(this.z, this.x);
+        return Math.atan2(this.y, this.x);
     }
 
     get phi() {
