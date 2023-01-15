@@ -1,6 +1,7 @@
 "use strict";
 
 var canvas = document.getElementById('view'),
+	/** @type {CanvasRenderingContext2D} */
 	context = canvas.getContext("2d");
 
 var TAU = Math.PI * 2;

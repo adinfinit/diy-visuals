@@ -1,6 +1,7 @@
 "use strict";
 
 var canvas = document.getElementById("canvas");
+/** @type {CanvasRenderingContext2D} */
 var context = canvas.getContext("2d");
 
 // set canvas size to the correct size
