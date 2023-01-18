@@ -155,9 +155,17 @@ func Build(goos, goarch string) {
 }
 
 func main() {
-	for _, goos := range []string{"windows", "linux", "darwin"} {
-		for _, goarch := range []string{"386", "amd64"} {
-			Build(goos, goarch)
-		}
+	osarches := []string{
+		"windows/amd64",
+		"linux/386",
+		"linux/amd64",
+		"linux/arm64",
+		"darwin/amd64",
+		"darwin/arm64",
+	}
+
+	for _, osarch := range osarches {
+		os, arch, _ := strings.Cut(osarch, "/")
+		Build(os, arch)
 	}
 }
