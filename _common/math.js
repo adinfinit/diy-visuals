@@ -1,5 +1,6 @@
 const PHI = 1.618033988749894848204586834;
 const TAU = 2 * Math.PI;
+const PI = Math.PI;
 
 (function (global) {
     let start = 0;

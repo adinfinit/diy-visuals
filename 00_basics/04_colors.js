@@ -21,7 +21,7 @@ window.addEventListener("resize", onresize);
 onresize();
 
 for (let x = 0; x < screenWidth; x += 10) {
-    context.fillStyle = hsl(x * PHI, 70, 70);
+    context.fillStyle = hsl(x * PHI, 70, 50);
     context.fillRect(x, 100, 10, 50);
 }
 
@@ -30,10 +30,17 @@ for (let x = 0; x < screenWidth; x += 10) {
     context.fillRect(x, 200, 10, 50);
 }
 
+var gradient = context.createLinearGradient(0, 300, screenWidth, 300);
+gradient.addColorStop(0, "red");
+gradient.addColorStop(0.5, "green");
+gradient.addColorStop(1, "purple");
+context.fillStyle = gradient;
+context.fillRect(0, 300, screenWidth, 50);
+
 for (let x = 0; x < screenWidth; x += 10) {
     context.fillStyle = rgb(
         Math.sin((x / screenWidth) % 256) * 256,
         Math.sin((TAU / 3 + 7 * x / screenWidth) % 256) * 256,
         Math.sin((5 * x / screenWidth) % 256) * 256);
-    context.fillRect(x, 300, 10, 50);
+    context.fillRect(x, 400, 10, 50);
 }

@@ -20,6 +20,8 @@ window.addEventListener("resize", onresize);
 // update the variables
 onresize();
 
+// also see https://js1k.com/253
+
 class Bird {
     constructor(x, y, r) {
         this.x = x;
